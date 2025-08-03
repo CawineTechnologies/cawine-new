@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cawine | Search</title>
+    <link rel="icon" type="image/x-icon" href="/images/cawine_main_icon_round.png">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/tm_styles.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body style="background-color: white;">
+    <div id="vendor-products-view">
+        <header>
+            <h2 id="vendor-title">cawine</h2>
+            <div class="shopping">
+                <img src="images/shopping.svg">
+                <span class="quantity">0</span>
+            </div>
+            <div id="close">
+                <li style="margin-top: 12px;" class="fa fa-close"></li>
+            </div>
+        </header>
+        <img id="poster-vendor" />
+        <div id="wrapper-vendor-product">
+            <div id="inner-container-view-vendor">
+                <div id="product-list-vendor">
+
+                </div>
+            </div>
+        </div>
+        <!-- footer vendor -->
+        <div id="vendor-footer">
+            <p id="item-detail-name-vendor">Loading ...</p>
+            <p id="item-detail-qty-vendor">Loading ...</p>
+            <p id="item-detail-price-vendor">UGX<strong id="strong-price"></strong>.00</p>
+            <p id="item-detail-desc-vendor">Loading ...</p>
+            <p id="item-detail-vendor-prod">Loading ...</p>
+            <p id="item-detail-place-vendor">Loading ...</p>
+            <div style="width: 20%; right: 5%; top: 7%; position: absolute;">
+                <div id="decreas-cart-items-btn-vendor">
+                    <i id="delete-cart-icon" class="fa fa-minus"></i>
+                </div>
+                <strong id="cart-item-count-vendor">1</strong>
+                <div id="increas-cart-items-btn-vendor">
+                    <i id="add-cart-icon" class="fa fa-plus"></i>
+                </div>
+            </div>
+            <div id="btn-add-to-cart-vendor">
+                <p style="position: relative; margin-top: 3px; color: white;">Add to cart</p>
+            </div>
+            <img id="detail-img-vendor" />
+        </div>
+        <!-- footer vendor ends -->
+    </div>
+    <div id="close-search">
+        <li style="margin-top: 12px;" class="fa fa-arrow-left"></li>
+    </div>
+    <div id="search-container-view">
+        <input id="search-product-input" placeholder="What can we get you?" />
+    </div>
+    <div id="wrapper-product">
+        <div id="inner-container-view">
+            <div id="product-list">
+
+            </div>
+        </div>
+    </div>
+
+    <div id="product-footer">
+        <p id="item-detail-name">Loading ...</p>
+        <p id="item-detail-qty">Loading ...</p>
+        <p id="item-detail-price">UGX<strong id="strong-price"></strong>.00</p>
+        <p id="item-detail-desc">Loading ...</p>
+        <p id="item-detail-vendor">Loading ...</p>
+        <p id="item-detail-place">Loading ...</p>
+        <div style="width: 20%; right: 5%; top: 7%; position: absolute;">
+            <div id="decreas-cart-items-btn">
+                <i id="delete-cart-icon" class="fa fa-minus"></i>
+            </div>
+            <strong id="cart-item-count">1</strong>
+            <div id="increas-cart-items-btn">
+                <i id="add-cart-icon" class="fa fa-plus"></i>
+            </div>
+        </div>
+        <div id="btn-add-to-cart">
+            <p style="position: relative; margin-top: 3px; color: white;">Add to cart</p>
+        </div>
+        <div id="visit-vendor-btn">
+            <p style="position: relative; margin-top: 3px; color: white;">Visit vendor</p>
+        </div>
+        <img id="detail-img" />
+    </div>
+
+    <div class="card">
+        <h1 style="color: limegreen;">My Order</h1>
+        <div class="close-cart">
+            <li style="margin-top: 6px;" class="fa fa-close"></li>
+        </div>
+        <ul class="listCard">
+        </ul>
+    </div>
+
+
+    <script src="js/index.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, getDocs, collection, query, where, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyByGzJ_xF3kMCK1JQvEUWvJeBaB-NQkmno",
+            authDomain: "cawine-736ac.firebaseapp.com",
+            databaseURL: "https://cawine-736ac-default-rtdb.firebaseio.com",
+            projectId: "cawine-736ac",
+            storageBucket: "cawine-736ac.appspot.com",
+            messagingSenderId: "643248682742",
+            appId: "1:643248682742:web:c2ae192bf3cfbfe818ded7",
+            measurementId: "G-2HEXE80L51"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        var userId = "";
+        let openShopping = document.querySelector('.shopping');
+        let closeShopping = document.querySelector('.close-cart');
+        let openCheckOut = document.querySelector('.closeShopping');
+        let closeCheckOut = document.querySelector('.close-checkout');
+        let list = document.querySelector('.list');
+        let listCard = document.querySelector('.listCard');
+        let body = document.querySelector('body');
+        let total = document.querySelector('.total');
+        let quantity = document.querySelector('.quantity');
+
+        document.getElementById('close-search').addEventListener('click', (e) => {
+            window.location.href = "home.html";
+        });
+
+        document.getElementById('search-product-input').addEventListener('input', function (evt) {
+            var txt = this.value;
+            getProducts(txt)
+        });
+
+        
+        let products = [];
+        var productVendor = "";
+        async function getProducts(txt) {
+            var product = "";
+            // const q = query(collection(db, "Products"), where("name", "==", txt));
+            const querySnapshot = await getDocs(collection(db, "Products"));
+            querySnapshot.forEach((doc) => {
+                products = doc.data();
+                console.log(products);
+
+
+                if (doc.data().name.toLowerCase().includes(txt.toLowerCase()) || doc.data().category.toLowerCase().includes(txt.toLowerCase())) {
+                    var vendorId = doc.data().vendorID;
+
+                    product += "<div id='item'>";
+                    product += "<img id='item-img' src='" + doc.data().poster + "'/>";
+                    product += "<p id='item-name'>" + doc.data().name + "</p>";
+                    product += "<p id='item-qty'>" + doc.data().qty + "</p>";
+                    product += "<p id='item-price'>UGX<strong>" + parseInt(doc.data().price).toLocaleString() + "</strong></p>";
+                    // product += "<div id='add-to-cart-btn'>";
+                    //     product += "<i id='add-icon' class='fa fa-plus'></i>";
+                    // product += "</div>";
+                    product += "<span id='vendor-uid'>" + doc.data().name + "</span>";
+                    product += "</div>";
+
+
+                }
+            });
+            document.getElementById('product-list').innerHTML = product;
+            var dlg = document.getElementById("inner-container-view");
+            dlg.style.display = "block";
+
+            var uidItem = document.querySelectorAll("#item span");
+            for (var i = 0; i < uidItem.length; i++) {
+                uidItem[i].onclick = function () {
+                    var uid = this.innerHTML;
+                    localStorage.setItem("name", uid);
+                    localStorage.setItem("bundle", "search");
+                    window.location.href = "addtocart.html";
+                }
+            }
+        }
+
+        async function getVendorInfo(itemId) {
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    userId = user.uid;
+                    // window.alert("User : " + userId);
+                } else {
+                    console.log("No user: authenticated!");
+                }
+            });
+
+            const itemRef = doc(db, "Cart", userId, "Items", itemId);
+            const itemData = await getDoc(itemRef);
+            if (itemData.exists()) {
+                var itemCount = parseInt(itemData.data().itemCount);
+                console.log("Item count : " + itemCount);
+
+                const vendorInfoRef = doc(db, "Vendors", itemData.data().vendorID,);
+                const vendorInfoData = await getDoc(vendorInfoRef);
+                if (vendorInfoData.exists()) {
+                    reloadCard(userId, vendorInfoData.data().vendorID);
+                    getVendorProducts(vendorInfoData.data().vendorID)
+                    document.getElementById('poster-vendor').src = vendorInfoData.data().poster;
+                    document.getElementById("detail-img").src = itemData.data().poster;
+                    document.getElementById("item-detail-name").innerHTML = itemData.data().name;
+                    document.getElementById("item-detail-qty").innerHTML = itemData.data().qty;
+                    document.getElementById("item-detail-price").innerHTML = vendorInfoData.data().currency +
+                        "<strong id='strong-price'>" + itemData.data().price * itemCount + "</strong>.00";
+                    document.getElementById('item-detail-desc').innerHTML = itemData.data().desc;
+
+                    document.getElementById('item-detail-vendor').innerHTML = vendorInfoData.data().name;
+                    document.getElementById('item-detail-place').innerHTML = vendorInfoData.data().place;
+
+                    document.getElementById("cart-item-count").innerHTML = itemCount;
+                    document.getElementById('vendor-title').innerHTML = vendorInfoData.data().name;
+                }
+
+                var dlg = document.getElementById("product-footer");
+                dlg.style.display = "block";
+
+                document.getElementById('increas-cart-items-btn').addEventListener('click', function (evt) {
+                    itemCount++;
+                    if (itemCount == 50) {
+                        return;
+                    }
+                    document.getElementById("strong-price").innerHTML = itemData.data().price * itemCount;
+                    document.getElementById("cart-item-count").innerHTML = itemCount;
+                });
+                document.getElementById('decreas-cart-items-btn').addEventListener('click', function (evt) {
+                    itemCount--;
+                    if (itemCount == 1) {
+                        return;
+                    }
+                    document.getElementById("strong-price").innerHTML = itemData.data().price * itemCount;
+                    document.getElementById("cart-item-count").innerHTML = itemCount;
+                });
+
+                document.getElementById('btn-add-to-cart').addEventListener('click', function (evt) {
+                    var map = {
+                        poster: itemData.data().poster,
+                        name: itemData.data().name,
+                        desc: itemData.data().desc,
+                        orderPrice: "" + itemData.data().price * itemCount,
+                        category: itemData.data().category,
+                        itemCount: "" + itemCount,
+                        price: itemData.data().price,
+                        qty: itemData.data().qty,
+                        userID: userId,
+                        vendorID: itemData.data().vendorID
+                    }
+
+                    var db = firebase.firestore();
+                    db.collection("Cart").doc(userId).collection("Items")
+                        .doc(itemData.data().name).set(map);
+                    window.alert(`Item added to cart`);
+                });
+
+            } else {
+                var itemCount = 1;
+                console.log("Item count: " + 0);
+                const docRef = doc(db, "Products", itemId);
+                const docData = await getDoc(docRef);
+
+                if (docData.exists()) {
+                    const vendorInfoRef = doc(db, "Vendors", docData.data().vendorID);
+                    const vendorInfoData = await getDoc(vendorInfoRef);
+                    if (vendorInfoData.exists()) {
+                        reloadCard(userId, vendorInfoData.data().vendorID);
+                        getVendorProducts(vendorInfoData.data().vendorID)
+                        document.getElementById('poster-vendor').src = vendorInfoData.data().poster;
+                        document.getElementById("detail-img").src = docData.data().poster;
+                        document.getElementById("item-detail-name").innerHTML = docData.data().name;
+                        document.getElementById("item-detail-qty").innerHTML = docData.data().qty;
+                        document.getElementById("item-detail-price").innerHTML = vendorInfoData.data().currency +
+                            "<strong id='strong-price'>" + docData.data().price + "</strong>.00";
+                        document.getElementById('item-detail-desc').innerHTML = docData.data().desc;
+
+                        document.getElementById('item-detail-vendor').innerHTML = vendorInfoData.data().name;
+                        document.getElementById('item-detail-place').innerHTML = vendorInfoData.data().place;
+
+                        document.getElementById("strong-price").innerHTML = docData.data().price * itemCount;
+                        document.getElementById("cart-item-count").innerHTML = itemCount;
+                        document.getElementById('vendor-title').innerHTML = vendorInfoData.data().name;
+                    }
+
+                    var dlg = document.getElementById("product-footer");
+                    dlg.style.display = "block";
+
+                    document.getElementById('increas-cart-items-btn').addEventListener('click', function (evt) {
+                        itemCount++;
+                        if (itemCount == 50) {
+                            return;
+                        }
+                        document.getElementById("strong-price").innerHTML = docData.data().price * itemCount;
+                        document.getElementById("cart-item-count").innerHTML = itemCount;
+                    });
+                    document.getElementById('decreas-cart-items-btn').addEventListener('click', function (evt) {
+                        itemCount--;
+                        if (itemCount == 1) {
+                            return;
+                        }
+                        document.getElementById("strong-price").innerHTML = docData.data().price * itemCount;
+                        document.getElementById("cart-item-count").innerHTML = itemCount;
+                    });
+
+                    document.getElementById('btn-add-to-cart').addEventListener('click', function (evt) {
+                        var map = {
+                            poster: docData.data().poster,
+                            name: docData.data().name,
+                            desc: docData.data().desc,
+                            orderPrice: "" + docData.data().price * itemCount,
+                            category: docData.data().category,
+                            itemCount: "" + itemCount,
+                            price: docData.data().price,
+                            qty: docData.data().qty,
+                            userID: userId,
+                            vendorID: docData.data().vendorID
+                        }
+
+                        var db = firebase.firestore();
+                        db.collection("Cart").doc(userId).collection("Items")
+                            .doc(docData.data().name).set(map);
+                        window.alert(`Item added to cart`);
+                    });
+
+                    document.getElementById('visit-vendor-btn').addEventListener('click', function (evt) {
+                        var dlg = document.getElementById("vendor-products-view");
+                        dlg.style.display = "block";
+
+                        var dlg = document.getElementById("product-footer");
+                        dlg.style.display = "none";
+                    });
+                }
+            }
+
+            async function getVendorProducts(vendorUid) {
+                const querySnapshot = await getDocs(collection(db, "Products"));
+                querySnapshot.forEach((doc) => {
+                    var vendorId = doc.data().vendorID;
+                    if (vendorUid == vendorId) {
+                        productVendor += "<div id='item-vendor-product'>";
+                        productVendor += "<img id='item-img-vendor-product' src='" + doc.data().poster + "'/>";
+                        productVendor += "<p id='item-name-vendor-product'>" + doc.data().name + "</p>";
+                        productVendor += "<p id='item-qty-vendor-product'>" + doc.data().qty + "</p>";
+                        productVendor += "<p id='item-price-vendor-product'>UGX<strong>" + doc.data().price + "</strong>.00</p>";
+                        productVendor += "<span id='vendor-uid-prod'>" + doc.data().name + "</span>";
+                        productVendor += "</div>";
+                        document.getElementById('product-list-vendor').innerHTML = productVendor;
+
+                        var uidItem = document.querySelectorAll("#item-vendor-product span");
+                        for (var i = 0; i < uidItem.length; i++) {
+                            uidItem[i].onclick = function () {
+                                var uid = this.innerHTML;
+                                getVendorProdInfo(uid);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        async function getVendorProdInfo(itemId) {
+            const docRef = doc(db, "Products", itemId);
+            const docData = await getDoc(docRef);
+            if (docData.exists()) {
+                console.log(docData.data());
+                const vendorInfoRef = doc(db, "Vendors", docData.data().vendorID);
+                const vendorData = await getDoc(vendorInfoRef);
+                if (vendorData.exists()) {
+                    document.getElementById("detail-img-vendor").src = docData.data().poster;
+                    document.getElementById("item-detail-name-vendor").innerHTML = docData.data().name;
+                    document.getElementById("item-detail-qty-vendor").innerHTML = docData.data().qty;
+                    document.getElementById("item-detail-price-vendor").innerHTML = vendorData.data().currency +
+                        "<strong id='strong-price-vendor'>" + parseInt(docData.data().price) + "</strong>.00";
+                    document.getElementById('item-detail-desc-vendor').innerHTML = docData.data().desc;
+
+                    document.getElementById('item-detail-vendor-prod').innerHTML = "Delivers in 30 - 60 min";
+                    document.getElementById('item-detail-place-vendor').innerHTML = `Delivery fee: ${vendorData.data().currency}`
+                        + parseInt(vendorData.data().deliveryFee).toLocaleString();
+
+                    var dlg = document.getElementById("vendor-footer");
+                    dlg.style.display = "block";
+                    body.classList.remove('active');
+
+                    var itemCount = 1;
+                    document.getElementById('increas-cart-items-btn-vendor').addEventListener('click', function (evt) {
+                        itemCount++;
+                        if (itemCount == 50) {
+                            itemCount = 50;
+                        }
+                        document.getElementById("strong-price-vendor").innerHTML = parseInt(docData.data().price) * itemCount;
+                        document.getElementById("cart-item-count-vendor").innerHTML = itemCount;
+                        reloadCard(doc.data().userID, docData.data().vendorID);
+                    });
+                    document.getElementById('decreas-cart-items-btn-vendor').addEventListener('click', function (evt) {
+                        itemCount--;
+                        if (itemCount == 1) {
+                            itemCount = 1;
+                        }
+                        document.getElementById("strong-price-vendor").innerHTML = parseInt(docData.data().price) * itemCount;
+                        document.getElementById("cart-item-count-vendor").innerHTML = itemCount;
+                        reloadCard(doc.data().userID, docData.data().vendorID);
+                    });
+
+                    document.getElementById('btn-add-to-cart-vendor').addEventListener('click', function (evt) {
+                        // window.alert("UserId: " + userId);
+                        var map = {
+                            poster: docData.data().poster,
+                            name: docData.data().name,
+                            desc: docData.data().desc,
+                            orderPrice: "" + docData.data().price * itemCount,
+                            category: docData.data().category,
+                            itemCount: "" + itemCount,
+                            price: docData.data().price,
+                            qty: docData.data().qty,
+                            userID: userId,
+                            vendorID: docData.data().vendorID
+                        }
+
+                        var db = firebase.firestore();
+                        db.collection("Cart").doc(userId).collection("Items")
+                            .doc(docData.data().name).set(map);
+                        reloadCard(userId, docData.data().vendorID);
+                        window.alert(`Item added to cart`);
+                    });
+                }
+            }
+        }
+
+        document.getElementById('visit-vendor-btn').addEventListener('click', function (evt) {
+            var dlg = document.getElementById("vendor-products-view");
+            dlg.style.display = "block";
+
+            var dlg = document.getElementById("product-footer");
+            dlg.style.display = "none";
+        });
+
+        document.getElementById('close').addEventListener('click', function (evt) {
+            var dlg = document.getElementById("vendor-products-view");
+            dlg.style.display = "none";
+
+            var dlg = document.getElementById("product-footer");
+            dlg.style.display = "block";
+        })
+
+        openShopping.addEventListener('click', () => {
+            body.classList.add('active');
+        });
+        closeShopping.addEventListener('click', () => {
+            body.classList.remove('active');
+        });
+
+        openCheckOut.addEventListener('click', () => {
+            body.classList.remove('active');
+            body.classList.add('open');
+        });
+        closeCheckOut.addEventListener('click', () => {
+            body.classList.remove('open');
+        });
+
+        async function reloadCard(userId, vendorid) {
+            listCard.innerHTML = '';
+            let count = 0;
+            var totalPrice = 0;
+            const querySnapshot = await getDocs(collection(db, "Cart", userId, "Items"));
+            querySnapshot.forEach((doc) => {
+                var vUid = doc.data().vendorID;
+                if (doc.data() != null && vendorid == vUid) {
+                    totalPrice += parseInt(doc.data().orderPrice);
+                    count += parseInt(doc.data().itemCount);
+                    let newDiv = document.createElement('li');
+                    newDiv.innerHTML = `
+                <div><img src="${doc.data().poster}"/></div>
+                <div>${doc.data().name}</div>
+                <div>${parseInt(doc.data().orderPrice).toLocaleString()}</div>
+                <div>
+                    <button onclick="changeQuantity(${doc.id}, ${count - 1})">-</button>
+                    <div class="count">${parseInt(doc.data().itemCount)}</div>
+                    <button onclick="changeQuantity(${doc.id}, ${count + 1})">+</button>
+                </div>`;
+                    listCard.appendChild(newDiv);
+                }
+            })
+            total.innerText = totalPrice.toLocaleString();
+            quantity.innerText = count;
+        }
+
+        function changeQuantity(key, quantity) {
+            if (quantity == 0) {
+                // delete listCards[key];
+                window.alert("Delete item from cart?");
+            } else {
+                listCards[key].qty = quantity;
+                listCards[key].price = quantity * products[key].price;
+            }
+            reloadCard();
+        }
+    </script>
+</body>
+
+</html>
