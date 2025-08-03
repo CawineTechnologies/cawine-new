@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vendor | Business</title>
+        <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+        <link rel="stylesheet" href="css/vendor.css" />
+        <link rel="icon" type="image/x-icon" href="/images/ic_cawine_launcher_icon_round.png">
+        <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <p style="margin-top: 9rem; margin-left: 1.5rem; margin-right: 1.5rem; color: black; font-size: 35px;">Do you do delivery to other placas around you?</p>
+        <p style="margin-left: 1.5rem; margin-right: 1rem; color: rgb(92, 91, 91); font-size: 15px;">This will help to inform customers whether you do outside delivering or not</p>
+        <div style="margin-top: 1.5rem; margin-left: 1.5rem; margin-right: 1.5rem; display: flex; align-items: center; justify-content: start;">
+            <input type="radio" name="do" id="radio-deliver" />
+            <label for="radio-deliver" style="padding-left: 7px; color: black; font-size: 15px;">Yes I do delivery</label>
+        </div>
+        <div style="margin-top: 1.5rem; margin-left: 1.5rem; margin-right: 1.5rem; display: flex; align-items: center; justify-content: start;">
+            <input type="radio" name="do" id="radio-no-deliver" />
+            <label for="radio-no-deliver" style="padding-left: 7px; color: black; font-size: 15px;">No</label>
+        </div>
+        <div style="margin-top: 2rem; margin-left: 1.5rem; margin-right: 1.5rem; align-items: center; justify-content: center; display: flex;">
+            <button id="next-btn">Next</button>
+        </div>
+        <script src="./js/col.js"></script>
+        <script src="./js/dodelivery.js"></script>
+    </body>
+</html>

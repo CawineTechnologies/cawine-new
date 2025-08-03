@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cawine</title>
+    <link rel="icon" type="image/x-icon" href="images/cawine_main_icon_round.png">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="stylesheet" href="css/tm_styles.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body style="margin: 0; padding: 0; background-image: url('images/web-image.avif');">
+    <div id="landing-view">
+
+        <div id="discover-view">
+            <img id="landing-img" src="images/home-gif.gif"
+                style="width:300px; height:250px; background-color: transparent; border-radius: 0px;" />
+            <div id="landing-txt-holder">
+                <h1 id="discover-title">Discover the greatest moments with cawine</h1>
+                <p id="enjoy-txt">Please enjoy responsibly</p>
+                <div id="landing-btn-holder">
+                    <button id="landing-login-btn" onclick="openLogin()">LOGIN</button>
+                    <button id="landing-reg-btn" onclick="openRegister()">REGISTER</button>
+                </div>
+            </div>
+        </div>
+
+        <div onclick="openMaps()"
+            style="position: absolute; cursor: pointer; top: 20px; left: 20px; right: 20px; height: 50px; border-radius: 25px; background-color: white; display: flex; align-items: center; justify-content: space-between;">
+            <img style="height: 100%;" src="images/cawine_main_icon_round.png" />
+            <span id="landing-location">Deliver to ...</span>
+            <span class="material-icons" style="color: limegreen; margin-right: 20px;">near_me</span>
+        </div>
+    </div>
+
+    <div
+        style="height: auto; position: relative; text-align: center; margin-top: 30px; background-color: rgb(220, 245, 220);">
+        <h3 id="pop-vendor">Trending Bars, Restaurants, Bakeries, Stores and more on cawine</h3>
+        <div
+            style="position: relative; margin-top: 45px; margin-left: 30px; margin-right: 30px; margin-bottom: 50px; text-align: center;">
+            <div onclick="openClab()"
+                style="width: 200px; height: 150px; cursor: pointer; margin: 20px; border-radius: 5px; display: inline-block; box-shadow: 0 1px 3px rgba(68, 68, 68, 0.16), 0 1px 3px rgba(68, 68, 68, 0.16); background-color: white;">
+                <img style="width: 100%; height: 95px; position: relative; border-radius: 5px 5px 0px 0px;"
+                    src="https://firebasestorage.googleapis.com/v0/b/cawine-736ac.appspot.com/o/Vendors%2FvIvr0QCBFfPXUhLcP4DRHsWs4jZ2%2FImages%2FLogo.jpg?alt=media&token=f69a6ea9-30ce-4d79-a2fe-635eb5b2a214" />
+                <p
+                    style="position: relative; margin-left: 20px; margin-right: 20px; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    CLABT Bakery</p>
+            </div>
+            <div id="demo-wise-btn" onclick="openWise()">
+                <img style="width: 100%; height: 95px; position: relative; border-radius: 5px 5px 0px 0px;"
+                    src="https://firebasestorage.googleapis.com/v0/b/cawine-736ac.appspot.com/o/Vendors%2Fiu6NGAQdmvRZChAPj6nsIKIjZh52%2FImages%2FCoverPhoto.jpg?alt=media&token=9ad65251-3e4e-492c-a9f0-64723b8203b4" />
+                <p
+                    style="position: relative; margin-left: 20px; margin-right: 20px; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    WISE LIQUORS</p>
+            </div>
+            <div onclick="openRoof()"
+                style="width: 200px; height: 150px; cursor: pointer; margin: 20px; border-radius: 5px; display: inline-block; box-shadow: 0 1px 3px rgba(68, 68, 68, 0.16), 0 1px 3px rgba(68, 68, 68, 0.16); background-color: white;">
+                <img style="width: 100%; height: 95px; position: relative; border-radius: 5px 5px 0px 0px;"
+                    src="https://firebasestorage.googleapis.com/v0/b/cawine-736ac.appspot.com/o/Vendors%2Fkc2ddjgVT0efzPaVFUZkbwKQM6h1%2FImages%2FCoverPhoto.jpg?alt=media&token=562f82ab-caa8-4fcf-927f-ed28366cc656" />
+                <p
+                    style="position: relative; margin-left: 20px; margin-right: 20px; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    NewRoof Bar and Restaurant </p>
+            </div>
+            <div onclick="openEandD()"
+                style="width: 200px; height: 150px; cursor: pointer; margin: 20px; border-radius: 5px; display: inline-block; box-shadow: 0 1px 3px rgba(68, 68, 68, 0.16), 0 1px 3px rgba(68, 68, 68, 0.16); background-color: white;">
+                <img style="width: 100%; height: 95px; position: relative; border-radius: 5px 5px 0px 0px;"
+                    src="https://firebasestorage.googleapis.com/v0/b/cawine-736ac.appspot.com/o/Vendors%2FmgEzfpeos7VIe2cx0v6Qkav8KQL2%2FImages%2FCoverPhoto.jpg?alt=media&token=6aa65d5d-32f5-4eee-b3b9-262ced83d27d" />
+                <p
+                    style="position: relative; margin-left: 20px; margin-right: 20px; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    E and D Distributors</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="download-view">
+        <div id="download-txt-view">
+            <h2 style="width: 100%; position: relative; display: inline-block; text-align: center;">Download the app
+            </h2>
+            <p style="position: relative; display: inline-block; text-align: center;">Order drinks and eats and track
+                them in real time with the cawine app</p>
+            <div
+                style="position: relative; margin-top: 10px; display: flex; align-items: center; justify-content: center;">
+                <img style="width: 150px; height: 50px; cursor: pointer;"
+                    onclick="{window.location.assign('register.html')}" src="images/App-store-Icon.png" />
+                <img style="width: 150px; height: 50px; cursor: pointer;" onclick="openUser()"
+                    src="images/Play-store-Icon.png" />
+            </div>
+        </div>
+        <div id="phone-img-view">
+            <img style="rotate: -30deg; width: 150px; display: inline-block;" src="images/Cawine2.png" />
+            <img style="rotate: -30deg; width: 150px; margin-left: 30px; display: inline-block;"
+                src="images/Cawine3.png" />
+        </div>
+    </div>
+
+    <div id="courier-partner-what">
+        <h2 style="width: 100%; position: relative; display: inline-block; text-align: center;">Let's work together
+        </h2>
+        <div id="courier-view">
+            <img style="width: 150px; height: 150px; border-radius: 50%; cursor: pointer; background-color: black;"
+                src="images/courier.webp" />
+            <p style="position: relative; text-align: center; color: black; font-weight: 900; font-size: 24px;">Become a
+                Courier</p>
+            <p
+                style="position: relative; text-align: center; color: black; font-size: 15px; padding-left: 20px; padding-right: 20px;">
+                Enjoy flexibility, freedom and competitive earnings by working with cawine.</p>
+            <button onclick="opencourierApp()"
+                style="width: 200px; height: 50px; position: relative; font-weight: 600; font-size: 20px; color: white; background-color: rgb(39, 133, 39); margin-top: 10px; border: none; border-radius: 8px; cursor: pointer;">Register
+                here</button>
+        </div>
+        <div id="partner-view">
+            <img style="width: 150px; height: 150px; border-radius: 50%; cursor: pointer; background-color: black;"
+                src="images/vendor4.png" />
+            <p style="position: relative; text-align: center; color: black; font-weight: 900; font-size: 24px;">Become a
+                Partner</p>
+            <p
+                style="position: relative; text-align: center; color: black; font-size: 15px; padding-left: 20px; padding-right: 20px;">
+                Grow with cawine! Our technology and user base can help you boost sales and unlock new opportunities!
+            </p>
+            <button onclick="{window.location.assign('./vendor/index.html')}"
+                style="width: 200px; height: 50px; position: relative; font-weight: 600; font-size: 20px; color: white; background-color: rgb(39, 133, 39); margin-top: 10px; border: none; border-radius: 8px; cursor: pointer;">Register
+                here</button>
+        </div>
+        <div id="newsroom-view">
+            <img style="width: 150px; height: 150px; border-radius: 50%; cursor: pointer; background-color: black;"
+                src="images/newsroom.webp" />
+            <p style="position: relative; text-align: center; color: black; font-weight: 900; font-size: 24px;">What we
+                do</p>
+            <p
+                style="position: relative; text-align: center; color: black; font-size: 15px; padding-left: 20px; padding-right: 20px;">
+                Grow with cawine! Our technology and user base can help you boost sales and unlock new opportunities!
+            </p>
+            <button onclick="{window.location.assign('./website/index.html')}"
+                style="width: 200px; height: 50px; position: relative; font-weight: 600; font-size: 20px; color: white; background-color: rgb(39, 133, 39); margin-top: 10px; border: none; border-radius: 8px; cursor: pointer;">Read
+                more...</button>
+        </div>
+        <div id="newsroom-view">
+            <img style="width: 150px; height: 150px; border-radius: 50%; cursor: pointer; background-color: black;"
+                src="images/cawine_main_icon_round.png" />
+            <p style="position: relative; text-align: center; color: black; font-weight: 900; font-size: 24px;">Cawine Technologies</p>
+            <p
+                style="position: relative; text-align: center; color: black; font-size: 15px; padding-left: 20px; padding-right: 20px;">
+                Bridging the digital divide and creating sustainable solutions through innovative technology
+            </p>
+            <button onclick="{window.location.assign('./website/technology.html')}"
+                style="width: 200px; height: 50px; position: relative; font-weight: 600; font-size: 20px; color: white; background-color: rgb(39, 133, 39); margin-top: 10px; border: none; border-radius: 8px; cursor: pointer;">Read
+                more...</button>
+        </div>
+    </div>
+
+    <div id="footer-links-view">
+        <div id="about-links-view">
+            <p style="position: relative; color: white; font-size: 17px; font-weight: 600;">Links of
+                interest</p>
+            <div style="display: flex; align-items: start; justify-content: start;">
+                <li onclick="{window.location.assign('./website/aboutus.html')}"
+                    style="position: relative; color: white; font-size: 15px; cursor: pointer;">
+                    About Us
+                </li>
+            </div>
+            <li onclick="{window.location.assign('./website/terms.html')}"
+                style="position: relative; color: white; font-size: 15px; top: 20px; cursor: pointer;">
+                Terms & Conditions
+            </li>
+            <li onclick="{window.location.assign('./website/contact.html')}"
+                style="position: relative; color: white; font-size: 15px; margin-top: 2.5rem; cursor: pointer;">
+                Contact Us
+            </li>
+            <li onclick="{window.location.assign('./website/privacy.html')}"
+                style="position: relative; color: white; font-size: 15px; margin-top: 20px; cursor: pointer;">
+                Privacy Policy
+            </li>
+        </div>
+        <div id="follow-links-view">
+            <p style="position: relative; color: white; font-size: 17px; font-weight: 600;">Follow
+                us</p>
+            <div style="text-align: start;">
+                <i class="fa fa-facebook-square" aria-hidden="true" style="color: limegreen;"></i>
+                <li onclick="openFacebook()"
+                    style="position: relative; display: inline-block; list-style-type: none; color: white; margin-left: 1rem; font-size: 15px; cursor: pointer;">
+                    Facebook
+                </li>
+            </div>
+            <div style="text-align: start; margin-top: 20px;">
+                <i class="fa fa-twitter" aria-hidden="true" style="color: limegreen;"></i>
+                <li onclick="openTwiter()"
+                    style="position: relative; display: inline-block; list-style-type: none; color: white; margin-left: 1rem; font-size: 15px; cursor: pointer;">
+                    Twitter
+                </li>
+            </div>
+            <div style="text-align: start; margin-top: 20px;">
+                <i class="fa fa-instagram" aria-hidden="true" style="color: limegreen;"></i>
+                <li onclick="openIntagram()"
+                    style="position: relative; display: inline-block; list-style-type: none; color: white; margin-left: 1rem; font-size: 15px; cursor: pointer;">
+                    Instagram
+                </li>
+            </div>
+            <div style="text-align: start; margin-top: 20px;">
+                <i class="fa fa-linkedin" aria-hidden="true" style="color: limegreen;"></i>
+                <li onclick="openLinkedin()"
+                    style="position: relative; display: inline-block; list-style-type: none; color: white; margin-left: 1rem;  font-size: 15px; cursor: pointer;">
+                    Linked In
+                </li>
+            </div>
+            <!-- <li onclick="openTiktok()"
+                style="position: relative; color: white; font-size: 15px; margin-top: 1.2rem; cursor: pointer;">
+                TikTok
+            </li> -->
+            <div style="text-align: start; margin-top: 20px;">
+                <i class="fa fa-youtube-play" aria-hidden="true" style="color: limegreen;"></i>
+                <li onclick="openYutube()"
+                    style="position: relative; display: inline-block; list-style-type: none; color: white; margin-left: 1rem;  cursor: pointer;">
+                    YouTube
+                </li>
+            </div>
+        </div>
+        <div id="download-footer-view">
+            <img style="width: 150px; height: 50px; cursor: pointer;"
+                onclick="{window.location.assign('register.html')}" src="images/App-store-Icon.png" />
+            <img style="width: 150px; height: 50px; cursor: pointer;" onclick="openUser()"
+                src="images/Play-store-Icon.png" />
+        </div>
+    </div>
+
+    <div id="landing-nav-bar">
+        <img style="width: 50px; height: auto; margin-left: 20px; cursor: pointer;"
+            src="images/cawine_main_icon_round.png" />
+        <button onclick="openLogin()"
+            style="width: 80px; height: 30px; border: none; border-radius: 5px; cursor: pointer; margin-right: 20px; background-color: black; color: white;">LOGIN</button>
+    </div>
+
+    <!-- <script src="js/index.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <script src="https://my-firebase-project.web.app/geofire-5.0.1.min.js"></script>
+    <!-- <script type="module" src="./js/config.js"></script> -->
+    
+    <script src="js/landing.js"></script>
+    <script src="/js/client.js"></script>
+</body>
+
+</html>

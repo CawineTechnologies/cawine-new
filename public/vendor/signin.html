@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vendor | Sign In</title>
+        <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+        <link rel="stylesheet" href="css/vendor.css" />
+        <link rel="icon" type="image/x-icon" href="/images/ic_cawine_launcher_icon_round.png">
+        <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div style="margin-top: 7rem; margin-left: 1.5rem; margin-right: 1.5rem; display: flex; align-items: center; justify-content: center;">
+            <input type="email" required placeholder="Enter your email*" id="input-email" />
+        </div>
+        <div style="margin-top: 1.5rem; margin-left: 1.5rem; margin-right: 1.5rem; display: flex; align-items: center; justify-content: center;">
+            <input type="password" required placeholder="Enter your password*" id="input-password" />
+        </div>
+        <div style="margin-top: 1.5rem; margin-left: 1.5rem; margin-right: 1.5rem; display: flex; align-items: center; justify-content: center;">
+            <input type="button" value="Continue" id="sign-in-btn" />
+        </div>
+        <div style="width: 100%; margin-top: 1rem; align-items: center; justify-content: center; display: flex;">
+            <button id="forgot-pass-btn">Forgot Password?</button>
+        </div>
+        <div style="width: 100%; margin-top: 1rem; align-items: center; justify-content: center; display: flex;">
+            <button id="new-register-btn">New to Cawine? Register</button>
+        </div>
+        <p style="position: absolute; bottom: 2rem; left: 1.5rem; right: 1.5rem; text-align: center; font-size: 13px; color: rgb(114, 114, 114);">&copy; 2021-2024 Cawine, All Rights Reserved.</p>
+        <script src="./js/signin.js"></script>
+    </body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Cawine | Home</title>
+    <link rel="icon" type="image/x-icon" href="images/cawine_main_icon_round.png">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/tm_styles.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body style="background-color: white;">
+    <div class="box">
+
+        <div class="location-or-search-panel">
+
+            <div id="open-maps" class="location-panel">
+                <p id="location-name">Deliver to:</p>
+                <p id="logo-title">Loading location, please wait...</p>
+                <i id="place-icon" class="fa fa-arrow-down"></i>
+            </div>
+        </div>
+
+        <div id="maps-container">
+            <!-- <iframe id="map-panel" src="" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
+        </div>
+
+        <div id="search-container" onclick="openWhatCanWeGetYou()">
+            <p id="search-hint">What can we get you?</p>
+            <div id="search-icon-container">
+                <i class="fa fa-search"></i>
+            </div>
+        </div>
+
+        <div class="products-title-panel">
+            <span class="products-title"><strong>Products</strong></span>
+        </div>
+
+        <div id="inner-section" onclick="openDrinks()">
+            <img src="images/beer_other.png">
+            <!-- <div id="inner-line"></div> -->
+            <p>Drinks</p>
+        </div>
+        <div id="inner-section" onclick="openEats()">
+            <img src="images/cawine_cakes.png">
+            <!-- <div id="inner-line"></div> -->
+            <p>Eats</p>
+        </div>
+        <div id="disc-panel" onclick="testConsts()">
+            <p style="color: white; font-size: 19px; position: absolute; top: 0.5%; left: 1rem;">Enjoy our amazing</p>
+            <p style="color: white; font-size: 19px; position: absolute; top: 1.6rem; left: 1rem;">offers</p>
+            <p style="color: white; font-size: 13px; position: absolute; bottom: 0.9rem; left: 1rem;">Deals and
+                discounts</p>
+            <img style="width: 23px; height: 23px; background-color: transparent; position: absolute; left: 8.6rem; bottom: 1.2rem;"
+                src="images/cawine_pointer.png" />
+            <div
+                style="width: 110px; height: 100%; position: absolute; background-color: black; right: 0%; border-radius: 70px 10px 10px 70px; align-items: center; justify-content: center; display: flex;">
+                <span style="color: white; position: absolute; right: 10%; font-size: 20px;">cawine</span>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="box-footer">
+        <a href="http://www.cawinetechnologies.com">&copy;2024 All Rights Reserved</a>
+        <a href="https://cawinetechnologies.com/terms-and-conditions/">Terms</a>
+        <a href="https://cawinetechnologies.com/privacy-policy/">Privacy Policy</a>
+    </div> -->
+
+    <div style="position: fixed; top: 0; width: auto; height: 70px; background-color: white;">
+
+        <div id="main-menu-btn">
+            <li class="fa fa-bars"></li>
+        </div>
+
+        <h2 style="display: inline-block;">cawine</h2>
+
+        <!-- <button id="btn-login" onclick="logout()">Logout</button> -->
+    </div>
+
+    <div class="main-menu">
+        <div id="menu-close-btn">
+            <li class="fa fa-close"></li>
+        </div>
+        <div style="top: 3rem; position: relative;">
+            <div id="prof-pic-holder">
+                <img id="prof-pic" src="images/profile_pic.png" />
+            </div>
+            <p id="prof-name">cawine user</p>
+            <p
+                style="height: 1px; position: relative; margin-top: 4rem; margin-right: 1rem; margin-left: 1rem; bottom: 1rem; background-color: gray;">
+            </p>
+            <p id="side-nav-home-btn"><strong>Home</strong></p>
+            <p id="side-nav-order-history-btn"><strong>Order history</strong></p>
+            <p id="menu-about-btn"><strong>About</strong></p>
+            <p id="menu-earn-btn"><strong>Earnings</strong></p>
+            <p
+                style="height: 1px; position: relative; margin-top: 4rem; margin-right: 1rem; margin-left: 1rem; background-color: gray;">
+            </p>
+            <p style="left: 1rem; top: 7px; position: relative; height: 20px; color: gray;">Agreement</p>
+            <p id="menu-terms-btn"><strong>Terms and Conditions</strong></p>
+            <p id="menu-privacy-btn"><strong>Privacy Policy</strong></p>
+            <div id="menu-logout-btn">
+                <p style="left: 1rem;
+                top: 12px;
+                position: relative;
+                height: 40px;
+                color: red;"><strong>Logout</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- search places dialog -->
+    <div id="dlg-background">
+        <div id="dlg-add-data">
+            <div id="close-dlg-btn" onclick="closePlaceDlg()">
+                <i id="close-btn-icon" class="fa fa-close"></i>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.0.0/firebase-app-compat.min.js" integrity="sha512-QxCI6n9lTLJpOHQcpZV2klXd5DhqSrGGe1rU2Cbr9+uCTNozkfbs/w5LVrk/pIgJwd1sFaKtvWGqw3EBtguHcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.0.0/firebase-messaging-compat.min.js" integrity="sha512-S1ikyG/9rWv+KJjbwHJGTKeYYnmVJxcvgQOBztLUPsRY4ZoSmPK+b8jTiDrt4lSP5SlpkpEQCbhwWQJK+kx7jQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-messaging.js"></script>
+    
+    <script src="js/index.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/client.js"></script>
+    <script type="module">
+        import getAccessToken from "../../../cawine/src/App";
+
+        getAccessToken();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>Eats | Cawine</title>
+  <link rel="icon" type="image/x-icon" href="images/cawine_main_icon_round.png">
+  <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/tm_styles.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <div id="loading-bar">
+    <img style="width: 80px; height: 70px;" src="images/giphy.webp" />
+  </div>
+
+  <div class="head" id="head">
+    <div class="nav-drinks-eats">
+      <div class="vendors-search-panel">
+
+        <i id="close-vendors" style="color: black; display: none;" class="fa fa-arrow-left"></i>
+
+        <span id="all-cawine-vendors">All
+          cawine vendors - Eats</span>
+
+        <!-- <div class="search-vendor-panel">
+          <p id="location-name">Search for vendor here ...</p>
+        </div> -->
+      </div>
+    </div>
+    <span class="fa fa-search" style="color: black; margin-right: 1.4rem;"></span>
+    <!-- <button id="btn-login" onclick="logout()">Logout</button> -->
+
+    <div id="all-companies">
+
+      <div id="comp-container">
+        <!-- <div id='vendor-item-row'>
+          <div id="item-row-title">
+            <span
+              style='position: relative; font-family: Segoe UI; font-size: 16px; display: inline-block; margin: 10px 0px 10px 15px; color: white; font-weight: 600;'>Vendor
+              1</span>
+            <img style='position: relative; width: 100%; height: 220px;' src='images/clients-img.png'>
+            <div id="like-rating-sec">
+              <span style='display: inline-block; margin-left: 1rem; color: orange;'><strong>0.0</strong></span>
+              <x-star-rating>
+                <div class="star"></div>
+                <div class="star"></div>
+                <div class="star"></div>
+                <div class="star"></div>
+                <div class="star"></div>
+              </x-star-rating>
+              <span style='display: inline-block; margin-left: 0.5rem; margin-right: 0.5rem; font-size: 12px; color: #777;'>0 reviews</span>
+              <span id="comment-liked">&#128077; &nbsp; 0</span>
+              <span id="comment-unliked">&#128078; &nbsp; 0</span>
+            </div>
+            <div id="like-rating-sec">
+              <span style='display: inline-block; margin-left: 1rem; color: #777; font-size: 12px;'>Loading location ...</span>
+            </div>
+          </div>
+        </div> -->
+      </div>
+
+    </div>
+  </div>
+
+  <div id="vendor-products-view">
+    <header>
+      <h2 id="vendor-title">cawine</h2>
+      <div class="shopping">
+        <img src="images/shopping.svg">
+        <span class="quantity">0</span>
+      </div>
+      <div id="close">
+        <li style="margin-top: 12px;" class="fa fa-close"></li>
+      </div>
+    </header>
+    <img id="poster-vendor" />
+    <div id="wrapper-vendor-product">
+      <div id="inner-container-view-vendor">
+        <div id="product-list-vendor">
+
+        </div>
+      </div>
+    </div>
+    <!-- footer vendor -->
+    <div id="vendor-footer">
+      <div id="detailts-container">
+        <p id="item-detail-name-vendor">Loading ...</p>
+        <p id="item-detail-qty-vendor">Loading ...</p>
+        <p id="item-detail-price-vendor">UGX<strong id="strong-price"></strong>.00</p>
+        <p id="item-detail-desc-vendor">Loading ...</p>
+        <p id="item-detail-vendor-prod">Loading ...</p>
+        <p id="item-detail-place-vendor">Loading ...</p>
+        <div id="cart-add-delete-btn">
+          <div id="decreas-cart-items-btn-vendor">
+            <i id="delete-cart-icon" class="fa fa-minus"></i>
+          </div>
+          <strong id="cart-item-count-vendor">1</strong>
+          <div id="increas-cart-items-btn-vendor">
+            <i id="add-cart-icon" class="fa fa-plus"></i>
+          </div>
+        </div>
+        <div id="btn-add-to-cart-vendor">
+          <p style="position: relative; margin-top: 3px; color: white;">Add to cart</p>
+        </div>
+      </div>
+      <img id="detail-img-vendor" />
+    </div>
+    <!-- footer vendor ends -->
+  </div>
+
+  <div class="card">
+    <h1 style="color: limegreen;">My Order</h1>
+    <div class="close-cart">
+      <li style="margin-top: 6px;" class="fa fa-close"></li>
+    </div>
+    <ul class="listCard">
+    </ul>
+    <div class="checkOut">
+      <div class="total">0</div>
+      <div class="closeShopping">Place order</div>
+    </div>
+  </div>
+
+  <div class="checkout">
+    <div style="top: 0%; width: 100%; position: fixed; background-color: white;">
+      <h3 style="color: limegreen; position: absolute; margin-left: 2rem;">Delivery details</h3>
+      <div class="close-check-out">
+        <li style="margin-top: 6px;" class="fa fa-close"></li>
+      </div>
+    </div>
+    <div style="width: 100%; height: auto; position: absolute; top: 12%;">
+      <div style="width: 100%; height: 80px; position: relative;">
+        <span style="font-size: 13px; color: #777; position: absolute; left: 2rem;">Deliver to</span>
+        <p id="deliver-to">Loading ....</p>
+      </div>
+      <div style="width: 100%; height: 80px; position: relative;">
+        <span style="font-size: 13px; color: #777; position: absolute; left: 2rem;">Phonber number</span>
+        <p id="phone-no">+256712345678</p>
+      </div>
+      <div style="width: 100%; height: 80px; position: relative;">
+        <span style="font-size: 13px; color: #777; position: absolute; left: 2rem;">Delivery notes</span>
+        <p style="font-size: 16px; color: #000; position: absolute; top: 0.5rem; left: 2rem;">E.g opposite suppermarket
+        </p>
+      </div>
+      <div style="width: 100%; height: 80px; position: relative;">
+        <span style="font-size: 13px; color: #777; position: absolute; left: 2rem;">Payment method</span>
+        <p style="font-size: 16px; color: #000; position: absolute; top: 0.5rem; left: 2rem;">Cash on delivery</p>
+      </div>
+    </div>
+    <div style="width: 100%; height: 200px; position: absolute; bottom: 0%; background-color: rgb(214, 243, 243);">
+      <h2 style="font-size: 16px; color: #000; position: absolute; margin-top: 10px; left: 2rem;">Summary</h2>
+      <p style="font-size: 16px; color: #000; position: absolute; top: 1.2rem; left: 2rem;">Total</p>
+      <p id="total-currency">UGX<strong id="total">0</strong>.00</p>
+      <p style="font-size: 16px; color: #000; position: absolute; top: 3rem; left: 2rem;">Delivery fee</p>
+      <p id="delivery-fee-currency">UGX<strong id="delivery-fee">5000</strong>.00</p>
+      <p style="font-size: 16px; color: #000; position: absolute; top: 5rem; left: 2rem;">Sub total</p>
+      <p id="sub-total-currency">UGX<strong id="sub-total">0</strong>.00</p>
+      <div id="place-order-btn">
+        <strong id="cancel-status-btn">Place order</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- order-payment-dlg -->
+  <div class="order-payment-dlg">
+    <div class="payment-dlg">
+      <h2 style="color: limegreen; position: relative; margin-left: 1rem;">Order Recieved</h2>
+      <p id="amount-title">Amount to
+        pay</p>
+      <p id="amount-to-pay">UGX<strong id="order-payment-amount">0</strong>.00</p>
+      <div id="order-payment-btn">
+        <span id="cancel-status-btn">OK, Thanks</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- order-warn-dlg -->
+  <div class="order-warn-dlg">
+    <div class="dialog">
+      <span style="margin-top: 2.2rem; margin-left: 1rem; margin-right: 4rem; position: absolute;">Once order prepaired
+        cannot be cancellable, proceed width order?</span>
+      <div
+        style="position: absolute; width: 100%; height: 20%; border-radius: 0px 0px 10px 10px; display: flex; bottom: 0%; background-color: rgb(14, 13, 13);">
+        <div id="cancel-order-dlg-btn">
+          <span style="color: white; position: absolute; top: 0.6rem; left: 7rem;">Cancel</span>
+        </div>
+        <div style="display: inline-block; height: 100%; width: 2px; background-color: rgb(136, 133, 133);"></div>
+        <div id="proceed-dlg-btn">
+          <span style="color: white; position: absolute; top: 0.6rem; right: 7rem; color: limegreen;">Proceed</span>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/index.js"></script>
+
+    <script>
+
+      const db = firebase.firestore();
+
+      var userId = "";
+      var vendorID = "";
+      var userName = "";
+      var vendorItem = "";
+      var vendorName = "";
+      var currency = "";
+      var subTotal = 0;
+      var products = [];
+      var productVendor = "";
+      let referralCode = "";
+      let openShopping = document.querySelector('.shopping');
+      let closeShopping = document.querySelector('.close-cart');
+      let openCheckOut = document.querySelector('.closeShopping');
+      let closeCheckOut = document.querySelector('.close-check-out');
+      let list = document.querySelector('.list');
+      let listCard = document.querySelector('.listCard');
+      let body = document.querySelector('body');
+      let total = document.querySelector('.total');
+      let quantity = document.querySelector('.quantity');
+
+      document.getElementById('close-vendors').addEventListener('click', (e) => {
+        window.location.href = "home.html";
+      });
+
+      let likes = 0;
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          userId = user.uid;
+          console.log(userId);
+          getreferralCode(userId);
+
+          db.collection('Users').doc(userId).collection('Nearest Vendors')
+            .orderBy('eta', 'desc').get().then(function (snapshot) {
+              snapshot.forEach((doc) => {
+                if (doc.data().category == "Confectionery") {
+                  console.log(doc.data())
+                  db.collection("Vendors").doc(doc.data().vendorID).collection("Liked").doc(userId).get().then(function (d) {
+                    if (d.data() != null) {
+                      if (doc.data().likes != null) {
+                        likes = doc.data().likes;
+                      }
+
+                      vendorItem += `
+            <div id='vendor-item-row'>
+              <img style='width: 100%; height: 60%; border-radius: 8px 8px 0px 0px;' src='${doc.data().poster}'>
+              <div id="item-row-title">
+              <div id="like-rating-sec">
+                <span style='position: relative; font-size: 18px; margin-left: 1rem; color: black; font-weight: 600;'>${doc.data().name}</span>
+              </div>
+              <div id="rating-box">
+            <div id="star-outer">
+              <div id="star-inner" style="width: ${(doc.data().rating != null) ? (parseInt(doc.data().rating) / 5) * 100 + "%" : "0%"}">
+
+              </div>
+            </div>
+          </div>
+          <div id="like-rating-sec" style="position: absolute; top: 2.4rem; display: flex; justify-content: space-between;">
+            <span style='display: inline-block; margin-left: 1rem; color: orange;'><strong>${(doc.data().rating != null) ? doc.data().rating : "0.0"}</strong></span>
+            
+            <span
+              style='display: inline-block; margin-top: 0.2rem; margin-left: 0.5rem; margin-right: 7rem; font-size: 12px; color: #777;'>${(doc.data().reviews != null) ? doc.data().reviews + " reviews" : "0 reviews"}</span>
+          </div>
+              <div id="like-rating-sec" style="position: relative; margin-top: 2rem;">
+                <span style='display: inline-block; margin-left: 1rem; color: #777; font-size: 12px;'>${doc.data().place}</span>
+              </div>
+              <div style="height: 1px; position: relative; background-color: darkgray; margin-top: 0.6rem; margin-left: 1rem; margin-right: 1rem;"></div>
+              <div style="position: relative; margin-top: 1rem; margin-left: 1rem; margin-right: 1rem; display: flex; align-items: center; justify-content: space-between;">
+              <div style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer;">
+                <li class="material-icons" style="color: green;" data-uid="${doc.data().vendorID}">thumb_up</li>
+                <span id="num-of-likes">${likes}</span>
+              </div>
+              <div style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer;">
+                <li class="material-icons" data-uid="${doc.data().vendorID}">thumb_down</li>
+                <span style="position: relative; display: block; font-size: 13px;">Dislike</span>
+              </div>
+              <div style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer;">
+                <li class="material-icons" data-uid="${doc.data().vendorID}">share</li>
+                <span style="position: relative; display: block; font-size: 13px;">Share</span>
+              </div>
+            </div>
+            <li style="position: relative; margin-left: 1rem; color: green; font-size: 12px; text-align: left; list-style-type: none;">View more ...</li>
+          </div>
+          <p id='vendor-uid-item'>${doc.data().vendorID}</p>
+        </div>
+            `;
+                      document.getElementById("comp-container").innerHTML = vendorItem;
+
+                      var vendorUidItem = document.querySelectorAll("#vendor-item-row p");
+                      for (var i = 0; i < vendorUidItem.length; i++) {
+                        vendorUidItem[i].onclick = function () {
+                          var uid = this.innerHTML;
+                          vendorID = this.innerHTML;
+
+                          localStorage.setItem('vendor_id', uid);
+                          localStorage.setItem("bundle", "drinks");
+                          window.location.href = "vendorproducts.html";
+                        }
+                      }
+                    } else {
+                      if (doc.data().likes != null) {
+                        likes = doc.data().likes;
+                      }
+                      vendorItem += `
+            <div id='vendor-item-row'>
+              <img style='width: 100%; height: 60%; border-radius: 8px 8px 0px 0px;' src='${doc.data().poster}'>
+              <div id="item-row-title">
+              <div id="like-rating-sec">
+                <span style='position: relative; font-size: 18px; margin-left: 1rem; color: black; font-weight: 600;'>${doc.data().name}</span>
+              </div>
+              <div id="rating-box">
+            <div id="star-outer">
+              <div id="star-inner" style="width: ${(doc.data().rating != null) ? (parseInt(doc.data().rating) / 5) * 100 + "%" : "0%"}">
+
+              </div>
+            </div>
+          </div>
+          <div id="like-rating-sec" style="position: absolute; top: 2.4rem; display: flex; justify-content: space-between;">
+            <span style='display: inline-block; margin-left: 1rem; color: orange;'><strong>${(doc.data().rating != null) ? doc.data().rating : "0.0"}</strong></span>
+            
+            <span
+              style='display: inline-block; margin-top: 0.2rem; margin-left: 0.5rem; margin-right: 7rem; font-size: 12px; color: #777;'>${(doc.data().reviews != null) ? doc.data().reviews + " reviews" : "0 reviews"}</span>
+          </div>
+              <div id="like-rating-sec" style="position: relative; margin-top: 2rem;">
+                <span style='display: inline-block; margin-left: 1rem; color: #777; font-size: 12px;'>${doc.data().place}</span>
+              </div>
+              <div style="height: 1px; position: relative; background-color: darkgray; margin-top: 0.6rem; margin-left: 1rem; margin-right: 1rem;"></div>
+              <div style="position: relative; margin-top: 1rem; margin-left: 1rem; margin-right: 1rem; display: flex; align-items: center; justify-content: space-between;">
+              <div style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer;">
+                <li class="material-icons" data-uid="${doc.data().vendorID}">thumb_up</li>
+                <span id="num-of-likes">${likes}</span>
+              </div>
+              <div style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer;">
+                <li class="material-icons" data-uid="${doc.data().vendorID}">thumb_down</li>
+                <span style="position: relative; display: block; font-size: 13px;">Dislike</span>
+              </div>
+              <div style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer;">
+                <li class="material-icons" data-uid="${doc.data().vendorID}">share</li>
+                <span style="position: relative; display: block; font-size: 13px;">Share</span>
+              </div>
+            </div>
+            <li style="position: relative; margin-left: 1rem; color: green; font-size: 12px; text-align: left; list-style-type: none;">View more ...</li>
+          </div>
+          <p id='vendor-uid-item'>${doc.data().vendorID}</p>
+        </div>
+            `;
+                      document.getElementById("comp-container").innerHTML = vendorItem;
+
+                      var vendorUidItem = document.querySelectorAll("#vendor-item-row p");
+                      for (var i = 0; i < vendorUidItem.length; i++) {
+                        vendorUidItem[i].onclick = function () {
+                          var uid = this.innerHTML;
+                          vendorID = this.innerHTML;
+
+                          localStorage.setItem('vendor_id', uid);
+                          localStorage.setItem("bundle", "drinks");
+                          window.location.href = "vendorproducts.html";
+                        }
+                      }
+                    }
+                  });
+                }
+
+              });
+
+
+            });
+        }
+      });
+
+      // const generateReferralCode = () => {
+      //   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      //   let referralCode = '';
+      //   for (let i = 0; i < 8; i++) {
+      //     referralCode += characters.charAt(Math.floor(Math.random() * characters.length));
+      //   }
+      //   return referralCode;
+      // };
+
+      const getreferralCode = (uid) => {
+        console.log(userId)
+        db.collection('Users').doc(uid).get().then(function (it) {
+          if (it.data() != null) {
+            referralCode = it.data().phoneNumber;
+            console.log("Referral code: " + referralCode.replace(" ", ""));
+          }
+        });
+      }
+
+      document.getElementById("comp-container").addEventListener('click', function (e) {
+        let uid = e.target.dataset.uid;
+        if (e.target.innerHTML === "thumb_down") {
+          db.collection("Vendors").doc(uid).collection("Liked").doc(userId).get().then(function (it) {
+            console.log(it.data())
+            if (it.data() != null) {
+              db.collection("Vendors").doc(uid).collection("Liked").doc(userId).delete().then(function (ev) {
+                let likes = 0;
+                db.collection("Vendors").doc(uid).get().then(function (l) {
+                  if (l.data() != null && l.data().likes > 0) {
+                    likes = likes + l.data().likes;
+                    let map = {
+                      likes: likes - 1
+                    }
+                    db.collection("Vendors").doc(uid).update(map).then(function () {
+                      e.target.style.color = "black";
+                    });
+                  }
+                });
+
+              });
+            }
+          });
+        }
+        if (e.target.innerHTML === "thumb_up") {
+          db.collection("Vendors").doc(uid).collection("Liked").doc(userId).get().then(function (dl) {
+            if (dl.data() != null) {
+              return;
+            }
+          });
+          let map = {
+            likedBy: userId,
+            vendorID: uid
+          }
+          db.collection("Vendors").doc(uid).collection("Liked").doc(userId).set(map).then(function () {
+            let likes = 0;
+            db.collection("Vendors").doc(uid).get().then(function (l) {
+              if (l.data() != null) {
+                likes = likes + l.data().likes;
+                let map = {
+                  likes: likes + 1
+                }
+                db.collection("Vendors").doc(uid).update(map).then(function () {
+                  e.target.style.color = "green";
+                });
+              }
+            });
+
+          });
+        }
+        if (e.target.innerHTML === "share") {
+          shareApp();
+        }
+        console.log(uid);
+      });
+
+      let shareApp = () => {
+        if (navigator.share) {
+          navigator.share({
+
+            // Title that occurs over
+            // web share dialog
+            title: "Cawine",
+            text: `Use this referral code: ${referralCode.replace(" ", "")} to get FREE delivery on your first order`,
+
+            // URL to share
+            url: 'https://www.cawineapp.com/register.html'
+          }).then(() => {
+            console.log(referralCode);
+            const db = firebase.firestore();
+            db.collection('Referrals').doc(userId).get().then(function (it) {
+              if (it.data() != null) {
+                let map = {
+                  referralCode: referralCode.replace(" ", ""),
+                  vendorID: userId,
+                  reward: it.data().reward,
+                  status: it.data().status
+                }
+                db.collection("Referrals").doc(userId).update(map);
+                console.log('Thanks for sharing!');
+              } else {
+                let map = {
+                  referralCode: referralCode.replace(" ", ""),
+                  vendorID: userId,
+                  reward: 0,
+                  status: "pending"
+                }
+                db.collection("Referrals").doc(userId).set(map);
+                console.log('Thanks for sharing!');
+              }
+            });
+
+          }).catch(err => {
+
+            // Handle errors, if occurred
+            console.log(
+              "Error while using Web share API:");
+            console.log(err);
+          });
+        } else {
+
+          // Alerts user if API not available 
+          alert("Browser doesn't support this API !");
+        }
+      }
+    </script>
+</body>
+
+</html>

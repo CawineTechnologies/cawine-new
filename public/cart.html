@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cawine | My Order</title>
+    <link rel="icon" type="image/x-icon" href="images/cawine_main_icon_round.png">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/tm_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+</head>
+
+<body style="margin: 0%; padding: 0%;">
+    <div id="loading-bar">
+        <img style="width: 80px; height: 70px;" src="images/giphy.webp" />
+    </div>
+    <div id="cart-list-view">
+
+    </div>
+    <div id="cart-shadow">
+    </div>
+    <li id="cart-close-btn" class="fa fa-close"></li>
+    <span id="cart-vendor-name">Loading ...</span>
+    <span style="position: absolute; left: 20px; top: 4rem; font-weight: bolder; font-size: 20px;">My Order</span>
+    <span id="cart-selected-qty">0 items selected - cawine</span>
+    <p id="proceed-to-cart-btm">PROCEED TO CHECKOUT</p>
+
+    <!-- checkout -->
+
+    <div class="checkout">
+        <div id="checkout-container">
+            <div
+                style="width: 100%; position: relative; margin-top: 17px; align-items: center; justify-content: center; display: flex;">
+                <div id="as-soon-as-possible-btn">
+                    <p
+                        style="width: 100px; font-size: 13px; font-weight: bold; position: relative; margin-top: 10px; margin-left: 1rem;">
+                        As soon as possible</p>
+                    <p style="font-size: 13px; position: absolute; bottom: 2px; margin-left: 1rem;">As soon as possible
+                    </p>
+                </div>
+                <div id="schedule-order-btn">
+                    <p
+                        style="width: 100px; font-size: 13px; font-weight: bold; position: relative; margin-top: 10px; margin-left: 1rem;">
+                        Schedule</p>
+                    <p style="font-size: 13px; position: absolute; bottom: 2px; margin-left: 1rem; margin-right: 2rem;">
+                        Choose a day and time</p>
+                </div>
+            </div>
+            <div
+                style="height: 80px; margin-top: 17px; margin-left: 13px; margin-right: 13px; position: relative; background-color: #f7f7f7;">
+                <li style="position: absolute; top: 30%; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(116, 116, 116); left: 1rem; align-items: center; justify-content: center; display: flex; color: white;"
+                    class="fa fa-map-marker"></li>
+                <span style="font-size: 13px; color: #777; position: absolute; top: 8px; left: 3.8rem;">Deliver
+                    to</span>
+                <p id="deliver-to"></p>
+            </div>
+            <div
+                style="height: 60px; position: relative; margin-top: 15px; margin-left: 13px; margin-right: 13px; background-color: #f7f7f7;">
+                <li style="position: absolute; top: 26%; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(116, 116, 116); left: 1rem; align-items: center; justify-content: center; display: flex; color: white;"
+                    class="fa fa-phone"></li>
+                <span style="font-size: 13px; color: #777; position: absolute; top: 8px; left: 3.8rem;">Phonber
+                    number</span>
+                <p id="phone-no">+256712345678</p>
+            </div>
+            <div
+                style="height: 60px; position: relative; margin-top: 15px; margin-left: 13px; margin-right: 13px; background-color: #f7f7f7;">
+                <li style="position: absolute; top: 26%; width: 30px; height: 30px; border-radius: 50%; background-color: rgb(116, 116, 116); left: 1rem; align-items: center; justify-content: center; display: flex; color: white;"
+                    class="fa fa-align-left"></li>
+                <span style="font-size: 13px; color: #777; position: absolute; top: 8px; left: 3.8rem;">Delivery
+                    notes</span>
+                <input id="order-notes" placeholder="E.g opposite suppermarket" />
+            </div>
+            <span
+                style="color: #000; position: relative; top: 30px; margin-left: 13px; font-size: 18px; font-weight: 500;">Payment
+                method</span>
+            <div
+                style="height: 48px; position: relative; margin-top: 48px; margin-left: 13px; margin-right: 13px; background-color: rgb(218, 250, 218);">
+                <li style="position: absolute; top: 20%; width: 30px; height: 30px; border-radius: 50%; background-color: limegreen; left: 1rem; align-items: center; justify-content: center; display: flex; color: white;"
+                    class="fa fa-money"></li>
+                <li style="position: absolute; top: 27%; width: 20px; height: 20px; border-radius: 50%; background-color: limegreen; right: 1rem; align-items: center; justify-content: center; display: flex; color: white;"
+                    class="fa fa-check"></li>
+                <p style="font-size: 16px; color: #000; position: absolute; margin-top: 14px; left: 3.8rem;">Cash on
+                    delivery</p>
+            </div>
+            <div
+                style="width: 100%; position: relative; margin-top: 3rem; align-items: center; justify-content: center; display: flex;">
+                <img style="width: 150px; height: 80px; background-color: blue; cursor: pointer;"
+                    src="./images/airtel_money.jpg" onclick="{window.open('tel:*185*2'+'#', '_self')}" />
+                <img style="width: 150px; height: 80px; margin-left: 2rem; background-color: yellow; cursor: pointer;"
+                    src="./images/momopay2.jpg" onclick="{window.open('tel:*185*3'+'#', '_self')}" />
+            </div>
+            <div style="width: 100%; height: 200px; position: relative;"></div>
+        </div>
+        <dialog id="calendar-dlg">
+            <div style="height: 100%;">
+                <li style="position: relative; list-style-type: none; font-size: 17px; font-weight: 700;">Schedule order
+                </li>
+                <p style="font-size: 15px; position: relative; margin-top: 15px;">Select delivery day or date and time
+                </p>
+                <div
+                    style="width: 100%; position: relative; margin-top: 20px; align-items: center; justify-content: center; display: flex;">
+                    <input type="date" id="schedule-order-date" />
+                    <input type="time" id="schedule-order-time" />
+                </div>
+                <div
+                    style="position: relative; margin-top: 20px; align-items: end; justify-content: end; display: flex;">
+                    <li id="dialog-no-btn">CLOSE</li>
+                    <li id="dialog-yes-btn">SAVE</li>
+                </div>
+            </div>
+        </dialog>
+        <div id="checkout-shadow">
+            <div style="top: 0%; width: 100%; position: fixed; background-color: white;">
+                <h3 style="position: fixed; margin-left: 4.2rem;">Checkout</h3>
+                <div class="close-check-out">
+                    <li style="margin-top: 6px;" class="fa fa-close"></li>
+                </div>
+                <p style="position: absolute; top: 3rem; left: 1rem; font-size: 18px;">Deivery details</p>
+            </div>
+        </div>
+        <div style="width: 100%; height: 200px; position: fixed; bottom: 0%; background-color: rgb(214, 243, 243);">
+            <h2 style="font-size: 16px; color: #000; position: absolute; margin-top: 10px; left: 2rem;">Summary</h2>
+            <p style="font-size: 16px; color: #000; position: absolute; top: 1.2rem; left: 2rem;">Products</p>
+            <p id="total-currency">UGX<strong id="total">0</strong></p>
+            <p style="font-size: 16px; color: #000; position: absolute; top: 3rem; left: 2rem;">Delivery fee</p>
+            <p id="delivery-fee-currency">UGX<strong id="delivery-fee">5,000</strong></p>
+            <p
+                style="font-size: 16px; color: limegreen; position: absolute; top: 5rem; left: 2rem; text-transform: uppercase; font-weight: 500;">
+                Sub total</p>
+            <p id="sub-total-currency">UGX<strong id="sub-total">0</strong></p>
+            <div id="place-order-btn">
+                <p>CONFIRM ORDER</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- order payment dlg -->
+
+    <div class="order-payment-dlg">
+        <div class="payment-dlg">
+            <h2 style="color: limegreen; position: relative; margin-left: 1rem;">Order delivered successufully</h2>
+            <p id="amount-title">Amount to pay</p>
+            <p id="amount-to-pay">UGX<strong id="order-payment-amount">0</strong></p>
+            <div id="order-payment-btn">
+                <span id="cancel-status-btn">Thank you</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- order status dlg -->
+
+    <div class="order-status-dlg">
+        <div style="width: 100%; position: absolute; top: 0%; background-color: white;">
+            <li id="close-order-status-btn" class="fa fa-close"></li>
+        </div>
+    </div>
+
+    <!-- order warn dlg -->
+
+    <div class="order-warn-dlg">
+        <div class="dialog">
+            <span style="margin-top: 2.2rem; margin-left: 1rem; margin-right: 4rem; position: absolute;">Once order is
+                placed, can not be cancelled! </br>Proceed to checkout?</span>
+            <div
+                style="position: absolute; width: 100%; height: 20%; border-radius: 0px 0px 10px 10px; display: flex; bottom: 0%; background-color: rgb(14, 13, 13);">
+                <div id="cancel-order-dlg-btn">
+                    <span style="color: white; position: absolute; top: 0.6rem; left: 7rem;">Cancel</span>
+                </div>
+                <div style="display: inline-block; height: 100%; width: 2px; background-color: rgb(136, 133, 133);">
+                </div>
+                <div id="proceed-dlg-btn">
+                    <span
+                        style="color: white; position: absolute; top: 0.6rem; right: 7rem; color: limegreen;">Proceed</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(async function (OneSignal) {
+            await OneSignal.init({
+                appId: "5a9e60e4-6026-4f48-a094-e675114a5ab1",
+                safari_web_id: "web.onesignal.auto.365cbfbd-b203-4342-b6f2-394fa1a1712a",
+                notifyButton: {
+                    enable: true,
+                },
+            });
+        });
+    </script> -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-messaging.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+    <script type="module">
+        // import axios from 'axios';
+        import { getMessaging } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging.js'
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDocs, collection, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        // import { axios } from './js/onesignal.js';
+
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        // const messaging = getMessaging(app)
+
+        // Replace with your OneSignal app ID and REST API key
+        const appId = '5a9e60e4-6026-4f48-a094-e675114a5ab1'  // Your OneSignal App ID
+        const apiKey = 'os_v2_app_lkpgbzdaezhurieu4z2rcss2wej6gym3a52efc5wcuquuuogknohhafwtkshxznpiwpkaxly3dcxpes6cvnbwkllwnc4r7j5gpwnm3y'; // Your OneSignal REST API Key
+
+        // The URL for OneSignal API
+        const url = 'https://onesignal.com/api/v1/notifications';
+
+        const registrationToken = 'f4qkOAdKND6URajiAYTPr8:APA91bH8lLGUFI5DxzitsajA5SrwvVL4Np9K6fACu88EUQni32ZpZKLcs3a51v9gK4y5tCKfEzo_l1_nz6rxLbP92Zz4Y1gipLG5y4zs-TECEVpdP1as1zk';
+
+        const message = {
+            data: {
+                score: '850',
+                time: '2:45'
+            },
+            token: registrationToken
+        };
+
+        let cart = [];
+        var timer;
+        var userId = "";
+        var vendorID = "";
+        var userName = "";
+        var vendorItem = "";
+        var vendorName = "";
+        var currency = "UGX";
+        var subTotal = 0;
+        var productVendor = "";
+        let openShopping = document.querySelector('.shopping');
+        let closeShopping = document.querySelector('.close-cart');
+        let openCheckOut = document.querySelector('.closeShopping');
+        let closeCheckOut = document.querySelector('.close-check-out');
+        let list = document.querySelector('.list');
+        let listCard = document.querySelector('.listCard');
+        let body = document.querySelector('body');
+        let total = document.querySelector('.total');
+        let quantity = document.querySelector('.quantity');
+        let cartItemRow = document.querySelector('#cart-list-view');
+
+        let products = [];
+        let count = 0;
+        var totalPrice = 0;
+
+        const m = firebase.messaging();
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                userId = user.uid;
+                vendorID = localStorage.getItem("vendor_id");
+                getUserInfo(userId, vendorID);
+                reloadCard(vendorID);
+
+            }
+        });
+
+        var calDlg = document.getElementById('calendar-dlg');
+        document.getElementById('schedule-order-btn').addEventListener('click', (e) => {
+            calDlg.showModal();
+        });
+
+        document.getElementById('dialog-no-btn').addEventListener('click', (e) => {
+            calDlg.close();
+        });
+
+        document.getElementById('dialog-yes-btn').addEventListener('click', (e) => {
+            scheduleOrder();
+        });
+
+        document.getElementById('as-soon-as-possible-btn').addEventListener('click', (e) => {
+            document.getElementById('schedule-order-btn').style.backgroundColor = "lightgrey";
+            document.getElementById('as-soon-as-possible-btn').style.backgroundColor = "limegreen";
+        });
+
+        async function scheduleOrder() {
+            var scheduleDay = document.getElementById('schedule-order-date').value;
+            var scheduleTime = document.getElementById('schedule-order-time').value;
+            if (scheduleDay == "") {
+                window.alert("Date is required!");
+                return;
+            }
+            if (scheduleTime == "") {
+                window.alert("Time is required!");
+                return;
+            }
+            var db = firebase.firestore();
+            var map = {
+                scheduleDay: scheduleDay,
+                scheduleTime: scheduleTime
+            }
+            db.collection("Cart").doc(userId).update(map).then((e) => {
+                calDlg.close();
+                document.getElementById('schedule-order-btn').style.backgroundColor = "limegreen";
+                document.getElementById('as-soon-as-possible-btn').style.backgroundColor = "lightgrey";
+            });
+        }
+
+        function reloadCard(vendorId) {
+
+            let db = firebase.firestore();
+            db.collection("Cart").doc(userId).collection("Items").get().then(function (querySnapshot) {
+                querySnapshot.forEach((doc) => {
+
+                    var vUid = doc.data().vendorID;
+                    if (doc.data() != null && vUid == vendorId) {
+
+                        totalPrice = parseInt(doc.data().orderPrice);
+                        count = parseInt(doc.data().itemCount);
+
+                        products.push({
+                            id: doc.data().name,
+                            name: doc.data().name,
+                            poster: doc.data().poster,
+                            price: parseInt(doc.data().price),
+                            count: count,
+                        });
+                    }
+                    console.log(count + ", " + totalPrice);
+                });
+                if (localStorage.getItem('cart')) {
+                    cart = JSON.parse(localStorage.getItem('cart'));
+                    console.log(cart);
+                    addCartToHTML();
+                }
+                console.log(products);
+
+            });
+
+
+            var loadingBar = document.getElementById('loading-bar');
+            loadingBar.style.display = "none";
+
+            var newDb = firebase.firestore();
+            newDb.collection("Vendors").doc(vendorId).get().then(function (it) {
+                if (it.data() != null) {
+                    localStorage.setItem("vendor_name", it.data().name);
+                    localStorage.setItem("vendor_id", it.data().vendorID);
+                    document.getElementById('cart-vendor-name').innerHTML = it.data().name;
+                }
+            });
+        }
+
+        const addCartToHTML = () => {
+            cartItemRow.innerHTML = '';
+            let totalQuantity = 0;
+            let orderPrice = 0;
+            let prodName = "";
+            if (cart.length > 0) {
+                cart.forEach(item => {
+                    totalQuantity = totalQuantity + item.count;
+                    let newItem = document.createElement('div');
+                    newItem.classList.add('cart-item-row');
+                    newItem.dataset.id = item.name;
+
+                    let positionProduct = products.findIndex((value) => value.id == item.name);
+                    let info = products[positionProduct];
+                    orderPrice = info.price;
+                    prodName = info.name;
+
+                    cartItemRow.appendChild(newItem);
+                    newItem.innerHTML = `
+                       <img id="cart-img-row" src="${info.poster}"/>
+                       <p id="cart-name-row">${info.name}</p>
+                       <p id="cart-price-row">UGX<strong>${parseInt(info.price * item.count).toLocaleString()}</strong></p>
+                       <div id="cart-btn-container">
+                          <li data-prod="${info.name}" data-url="${info.poster}" id="cart-minus-btn" class="fa fa-minus"></li>
+                          <p id="cart-qty-row">${parseInt(item.count)}</p>
+                          <li data-prod="${info.name}" data-url="${info.poster}" id="cart-plus-btn" class="fa fa-plus"></li>
+                        </div>
+                        `;
+                })
+            }
+            document.getElementById('cart-selected-qty').innerHTML = totalQuantity + " items selected - cawine";
+        }
+
+        cartItemRow.addEventListener('click', (event) => {
+            let positionClick = event.target;
+            if (positionClick.classList.contains('fa-minus') || positionClick.classList.contains('fa-plus')) {
+                let product_id = positionClick.parentElement.parentElement.dataset.id;
+                let type = 'minus';
+                if (positionClick.classList.contains('fa-plus')) {
+                    type = 'plus';
+                }
+                changeQuantityCart(product_id, type);
+            }
+        })
+        const changeQuantityCart = (product_id, type) => {
+
+            let positionItemInCart = cart.findIndex((value) => value.name == product_id);
+            if (positionItemInCart >= 0) {
+                let info = cart[positionItemInCart];
+                switch (type) {
+                    case 'plus':
+                        cart[positionItemInCart].count = cart[positionItemInCart].count + 1;
+                        const db = firebase.firestore();
+                        let map = {
+                            itemCount: cart[positionItemInCart].count,
+                            orderPrice: cart[positionItemInCart].price * cart[positionItemInCart].count
+                        }
+                        db.collection("Cart").doc(userId).collection("Items").doc(cart[positionItemInCart].name).update(map);
+                        break;
+
+                    default:
+                        let changeQuantity = cart[positionItemInCart].count - 1;
+                        if (changeQuantity > 0) {
+                            cart[positionItemInCart].count = changeQuantity;
+                            const db = firebase.firestore();
+                            let map = {
+                                itemCount: cart[positionItemInCart].count,
+                                orderPrice: cart[positionItemInCart].price * cart[positionItemInCart].count
+                            }
+                            db.collection("Cart").doc(userId).collection("Items").doc(cart[positionItemInCart].name).update(map);
+                        } else {
+                            if (cart[positionItemInCart].count === 1) {
+                                const db = firebase.firestore();
+                                db.collection("Cart").doc(userId).collection("Items").doc(cart[positionItemInCart].name).delete();
+                                cart.splice(positionItemInCart, 1);
+                            }
+
+                        }
+                        break;
+                }
+            }
+            addCartToHTML();
+            addCartToMemory();
+        }
+
+        const addCartToMemory = () => {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        async function getUserInfo(currentUser, currenrVendor) {
+            const userRef = doc(db, "Users", currentUser);
+            const userData = await getDoc(userRef);
+            if (userData.exists()) {
+                userName = userData.data().fName;
+                document.getElementById('deliver-to').innerHTML = userData.data().deliverTo;
+                document.getElementById('phone-no').innerHTML = userData.data().phoneNumber;
+                loadOrderPricing(userData.data().userID, currenrVendor);
+            }
+        }
+
+        async function loadOrderPricing(cUser, cVendor) {
+            let count = 0;
+            var totalPrice = 0;
+            var allDocData;
+            const querySnapshot = await getDocs(collection(db, "Cart", cUser, "Items"));
+            querySnapshot.forEach((doc) => {
+                var vUid = doc.data().vendorID;
+                if (cVendor == vUid) {
+                    count += parseInt(doc.data().itemCount);
+                    allDocData = doc;
+                    totalPrice += parseInt(doc.data().orderPrice);
+                    subTotal = parseInt(totalPrice) + 5000;
+                }
+            });
+            // checkOrder();
+            document.getElementById('total').innerHTML = totalPrice.toLocaleString();
+            document.getElementById('sub-total').innerHTML = subTotal.toLocaleString();
+
+            document.getElementById('place-order-btn').addEventListener('click', (evn) => {
+                body.classList.remove('open');
+                body.classList.add('warn');
+            });
+
+            document.getElementById('proceed-dlg-btn').addEventListener('click', (evn) => {
+                var d = new Date()
+                var month = String(d.getMonth() + 1).padStart(2, '0');
+                var date = d.getDate() + " " + month + " " + d.getFullYear();
+                var time = moment().format('hh:mm a');
+                var deliverTo = document.getElementById('deliver-to').innerHTML;
+                var phoneNumber = document.getElementById('phone-no').innerHTML;
+                var deliveryNotes = document.getElementById('order-notes').value;
+                var map = {
+                    dest: deliverTo,
+                    phone: phoneNumber,
+                    vendorTitle: vendorName,
+                    orderTime: "Placed at: " + time,
+                    orderDate: date,
+                    vendorID: vendorID,
+                    client: userId,
+                    name: userName,
+                    order: "pending",
+                    price: "" + subTotal,
+                    deliveryFee: "5000",
+                    paymentType: "Cash",
+                    currency: currency,
+                    notes: deliveryNotes
+                }
+                var db = firebase.firestore();
+                db.collection("New orders").doc(userId).set(map).then((e) => {
+                    window.location.assign("/api");
+                });
+            });
+
+            document.getElementById('cancel-order-dlg-btn').addEventListener('click', (evn) => {
+                body.classList.remove('warn');
+            });
+        }
+
+        async function checkOrder() {
+            const userRef = doc(db, "New orders", userId);
+            const userData = await getDoc(userRef);
+            if (userData.exists()) {
+
+                var order = userData.data().order;
+                if (order == "preparing") {
+
+                    body.classList.add('status');
+                    document.getElementById('prepare-order-dot').style.backgroundColor = "limegreen";
+                    document.getElementById('prepare-order-text').style.color = "limegreen";
+                    document.getElementById('prepare-order-line').style.backgroundColor = "limegreen";
+                    document.getElementById('cancel-order-btn').style.display = "none";
+                } else if (order == "delivering") {
+                    body.classList.add('status');
+                    document.getElementById('prepare-order-dot').style.backgroundColor = "limegreen";
+                    document.getElementById('prepare-order-text').style.color = "limegreen";
+                    document.getElementById('prepare-order-line').style.backgroundColor = "limegreen";
+                    document.getElementById('oredr-in-transit-dot').style.backgroundColor = "limegreen";
+                    document.getElementById('order-in-transit-text').style.color = "limegreen";
+                    document.getElementById('cancel-order-btn').style.display = "none";
+                } else if (order == "received") {
+                    document.getElementById('order-payment-amount').innerHTML = subTotal.toLocaleString();
+                    body.classList.add('payment');
+                    document.getElementById('order-payment-btn').addEventListener('click', (evn) => {
+                        var map = {
+                            order: "completed"
+                        }
+                        var db = firebase.firestore();
+                        db.collection("New orders").doc(userId).update(map).then(function (e) {
+                            window.alert('Order completed');
+                            window.location.href = "home.html";
+                        });
+                    });
+                }
+            }
+        }
+
+        document.getElementById('cart-close-btn')
+            .addEventListener('click', (e) => {
+                window.location.href = "vendorproducts.html";
+            });
+
+        closeCheckOut.addEventListener('click', () => {
+            body.classList.remove('open');
+        });
+
+        document.getElementById('proceed-to-cart-btm')
+            .addEventListener('click', (e) => {
+                body.classList.add('open');
+            });
+
+        document.getElementById('place-order-btn')
+            .addEventListener('click', (evn) => {
+                body.classList.remove('open');
+                body.classList.add('warn');
+            });
+    </script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>

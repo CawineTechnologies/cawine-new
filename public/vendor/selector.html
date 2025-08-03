@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vendor | Home</title>
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="stylesheet" href="css/vendor.css" />
+    <link rel="icon" type="image/x-icon" href="images/ic_cawine_launcher_icon_round.png">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- home sec -->
+    <div id="home-sec">
+        <div style="position: relative; margin-top: 1.6rem; width: 100%; text-align: center;">
+            <span id="vendor-title">Loading ...</span>
+            <span id="endor-place">Place</span>
+        </div>
+        <nav class="nav">
+            <a href="#" class="nav__link__home nav__link--active">
+                <span class="nav__text">views</span>
+                <li id="views-txt">0</li>
+                <div></div>
+            </a>
+            <a href="#" class="nav__link__book">
+                <span class="nav__text">Activity</span>
+                <li id="activity-txt">0</li>
+                <div></div>
+            </a>
+        </nav>
+        <div
+            style="width: 100%; height: 1px; position: relative; box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.16), 0 1px 4px rgba(0, 0, 0, 0.23);">
+        </div>
+        <!-- views section -->
+        <div id="views-sec">
+            <div style="width: 100%; display: flex; align-items: center; justify-content: space-between;">
+                <a href="#" class="nav__link__book">
+                    <span id="likes-txt">0</span>
+                    <span style="font-size: 14px; color: rgb(114, 114, 114);">Likes</span>
+                </a>
+                <div style="text-align: center;">
+                    <div style="width: 100%; display: flex; align-items: center; justify-content: center;">
+                        <span id="rating-txt">0.0</span>
+                        <span style="color: red; margin-top: 0.3rem;" class="material-icons">star</span>
+                    </div>
+                    <span id="reviews-txt">0 Reviews</span>
+                </div>
+                <a href="#" class="nav__link__book">
+                    <span id="shares-txt">0</span>
+                    <span style="font-size: 14px; color: rgb(114, 114, 114);">Shares</span>
+                </a>
+            </div>
+            <span
+                style="width: 250px; position: relative; display: block; font-size: 14px; color: rgb(114, 114, 114); margin-top: 2.5rem;  margin-left: 1.5rem;">Share
+                your Business Profile and get new reviews from customers</span>
+            <button id="shareBtn">Share profile</button>
+        </div>
+        <!-- activity section -->
+        <div id="activity-sec">
+            <div
+                style="height: 95px; position: relative; margin-left: 1.5rem; margin-right: 1.5rem; background-color: rgb(235, 235, 235);">
+                <div
+                    style="width: 100%; position: relative; display: flex; align-items: center; justify-content: space-between;">
+                    <span id="value-txt">UGX0.00</span>
+                    <span class="material-icons"
+                        style="color: black; margin-top: 0.7rem; margin-right: 1.3rem;">keyboard_arrow_right</span>
+                </div>
+                <span
+                    style="width: 150px; position: relative; display: block; font-size: 14px; color: rgb(114, 114, 114); margin-top: 0.2rem;  margin-left: 1.5rem;">Total
+                    earninigs made in this period</span>
+            </div>
+            <span id="item-count-txt">0</span>
+            <span
+                style="width: 220px; position: relative; display: block; font-size: 14px; color: rgb(114, 114, 114); margin-top: 0.2rem;  margin-left: 1.5rem;">Total
+                number of products being sold in this time period</span>
+            <div
+                style="width: 100%; margin-top: 1.7rem; display: flex; align-items: center; justify-content: space-between;">
+                <a href="#" class="nav__link__book">
+                    <span id="wine-txt">0</span>
+                    <span style="font-size: 14px; color: rgb(114, 114, 114);">Wines</span>
+                </a>
+                <a href="#" class="nav__link__book">
+                    <span id="liqueur-txt">0</span>
+                    <span style="font-size: 14px; color: rgb(114, 114, 114);">Liqueur</span>
+                </a>
+                <a href="#" class="nav__link__book">
+                    <span id="whiskey-txt">0</span>
+                    <span style="font-size: 14px; color: rgb(114, 114, 114);">Whiskey</span>
+                </a>
+            </div>
+            <div
+                style="width: 100%; margin-top: 1.7rem; display: flex; align-items: center; justify-content: space-between;">
+                <a href="#" class="nav__link__book">
+                    <span id="vodka-txt">0</span>
+                    <span style="font-size: 14px; color: rgb(114, 114, 114);">Vodka</span>
+                </a>
+                <a href="#" class="nav__link__book">
+                    <span style="color: black; font-size: 16px; margin-top: 0.5rem;">0</span>
+                    <span style="font-size: 14px; color: rgb(114, 114, 114);">Spirits</span>
+                </a>
+                <a href="#" class="nav__link__book">
+                    <span style="color: black; font-size: 16px; margin-top: 0.5rem;">0</span>
+                    <span style="font-size: 14px; color: rgb(114, 114, 114);">Soft drinks</span>
+                </a>
+            </div>
+            <div
+                style="width: 100%; margin-top: 1.7rem; display: flex; align-items: center; justify-content: space-between;">
+                <a href="#" class="nav__link__book">
+                    <span style="color: black; font-size: 16px; margin-top: 0.5rem;">0</span>
+                    <span style="font-size: 14px; color: rgb(114, 114, 114);">Gins</span>
+                </a>
+                <a href="#" class="nav__link__book">
+                    <span style="color: black; font-size: 16px; margin-top: 0.5rem;">0</span>
+                    <span style="font-size: 14px; color: rgb(114, 114, 114);">Energy drinks</span>
+                </a>
+                <a href="#" class="nav__link__book">
+                    <span style="color: black; font-size: 16px; margin-top: 0.5rem;">0</span>
+                    <span style="font-size: 14px; color: rgb(114, 114, 114);">Beer</span>
+                </a>
+            </div>
+        </div>
+        <div style="width: 100%; position: relative; margin-top: 0.5rem;">
+            <span
+                style="width: 100%; height: 30px; margin-top: 2rem; color: red; text-align: center; border-top: 1px solid rgb(224, 224, 224); padding-top: 8px;"
+                class="material-icons">keyboard_arrow_up</span>
+            <div style="width: 100%; height: 8px; background-color: rgb(189, 189, 189);"></div>
+            <span
+                style="width: 37px; height: 25px; display: block; margin-top: 15px; margin-left: 1.5rem; border-radius: 2px; background-color: rgb(203, 221, 203); color: green; font-size: 13px; text-align: center; padding-top: 6px;">New</span>
+            <span
+                style="position: relative; display: block; font-size: 17px; color: black; margin-top: 1rem;  margin-left: 1.5rem; margin-right: 1rem;">Managing
+                your Business Profile is now so easier with cawine</span>
+            <span
+                style="position: relative; display: block; font-size: 14px; color: rgb(114, 114, 114); margin-top: 1rem; margin-left: 1.5rem; margin-right: 2rem;">Insight
+                your customers by updating your business profile, post offers, deals and discounts and more ...</span>
+            <div style="width: 100%; height: 170px; margin-top: 0.7rem; background-color: rgb(237, 244, 237);">
+                <div
+                    style="position: absolute; height: 145px; border: 1px solid darkgray; border-radius: 20px 20px 0px 0px; left: 5rem;  right: 5rem; bottom: 0;">
+                    <div
+                        style="position: absolute; height: 141px; border: 1px solid darkgray; border-radius: 20px 20px 0px 0px; top: 0.2rem; left: 0.2rem;  right: 0.2rem; bottom: 0;">
+                        <div
+                            style="position: absolute; height: 134px; border: 1px solid darkgray; border-radius: 20px 20px 0px 0px; top: 0.3rem; left: 0.3rem;  right: 0.3rem; bottom: 0; display: flex; align-items: center; justify-content: center;">
+                            <img style="width: 90px; height: 90px; border-radius: 10px;"
+                                src="images/ic_cawine_launcher_icon_round.png" />
+                        </div>
+                    </div>
+                </div>
+                <div
+                    style="width: 5px; height: 48px; position: absolute; bottom: 1.5rem; right: 4.7rem; border-radius: 0px 4px 4px 0px; background-color: darkgray;">
+                </div>
+            </div>
+        </div>
+        <div id="btn-create-ads">
+            <span style="margin-left: 1.5rem; color: red; margin-top: 0.6rem; font-size: 28px;"
+                class="material-icons">link</span>
+            <span
+                style="margin-left: 1.5rem; color: black; margin-top: 0.8rem; font-size: 15px; font-weight: 600;">Create
+                Ads</span>
+        </div>
+        <div id="add-offer-btn">
+            <span style="margin-left: 1.5rem; color: red; margin-top: 0.6rem; font-size: 28px;"
+                class="material-icons">sell</span>
+            <span
+                style="margin-left: 1.5rem; color: black; margin-top: 0.8rem; font-size: 15px; font-weight: 600;">Create
+                offers</span>
+        </div>
+        <button id="view-more">View more</button>
+        <div style="width: 100%; height: 8px; background-color: rgb(189, 189, 189);"></div>
+        <span
+            style="position: relative; display: block; font-size: 17px; color: black; margin-top: 1rem;  margin-left: 1.5rem; margin-right: 1rem;">Get
+            your first review</span>
+        <div
+            style="width: 100%; position: relative; display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem;">
+            <span style="width: 170px; font-size: 14px; color: rgb(114, 114, 114);  margin-left: 1.5rem;">Share your
+                Business Profile and get new reviews from customers</span>
+            <div
+                style="width: 130px; height: 70px; border-radius: 14px 14px 14px 0px; background-color: rgb(237, 244, 237); margin-right: 1.5rem;">
+                <div style="width: 100%; display: flex; align-items: center; justify-content: center;">
+                    <span style="color: orange; font-size: 21px; margin-top: 0.7rem;" class="material-icons">star</span>
+                    <span style="color: orange; font-size: 21px; margin-top: 0.7rem;" class="material-icons">star</span>
+                    <span style="color: orange; font-size: 21px; margin-top: 0.7rem;" class="material-icons">star</span>
+                    <span style="color: orange; font-size: 21px; margin-top: 0.7rem;" class="material-icons">star</span>
+                    <span style="color: orange; font-size: 21px; margin-top: 0.7rem;"
+                        class="material-icons">star_half</span>
+                </div>
+                <div
+                    style="width: 60px; height: 5px; margin-top: 7px; margin-left: 1rem; background-color: rgb(201, 201, 201);">
+                </div>
+                <div
+                    style="width: 80px; height: 5px; margin-top: 7px; margin-left: 1rem; background-color: rgb(201, 201, 201);">
+                </div>
+            </div>
+        </div>
+        <button id="share-btn">Share profile</button>
+        <div style="width: 100%; height: 8px; background-color: rgb(189, 189, 189);"></div>
+        <span
+            style="position: relative; display: block; font-size: 17px; color: black; margin-top: 1rem;  margin-left: 1.5rem; margin-right: 1rem;">Brand
+            your Business Profile</span>
+        <span
+            style="position: relative; display: block; font-size: 14px; color: rgb(114, 114, 114); margin-top: 1rem; margin-left: 1.5rem; margin-right: 1rem;">Personalize
+            your profile on cawine by updating your logo</span>
+        <div
+            style="height: 10px; position: relative; margin-top: 1.3rem; margin-left: 1.5rem; margin-right: 1.5rem; border-radius: 10px; background-color: rgb(239, 194, 194);">
+            <div style="width: 60%; height: 10px; border-radius: 10px; background-color: red;"></div>
+        </div>
+        <input id="img-uri" type="file" style="display: none;" />
+        <button id="add-logo">Add Logo</button>
+        <div style="width: 100%; height: 60px; position: relative;"></div>
+    </div>
+    <!-- home sec ends -->
+    <!-- orders sec -->
+    <div id="orders-sec">
+        <div id="order-container">
+            <!-- <div style="width: 100%; margin-top: 2rem;">
+                <div style="width: 100%; display: flex; align-items: start; justify-content: start; position: relative;">
+                    <img id="order-img" src="./images/profile_pic.png" />
+                    <div style="margin-left: 10px;">
+                        <span id="order-name">MATHIAS</span>
+                        <span id="order-place">Kyebando Kisalosalo, Kampala, Uganda</span>
+                        <span id="order-currency">UGX<span id="order-price">52,000</span></span>
+                        <span id="order-status">Cancelled</span>
+                    </div>
+                </div>
+                <div style="width: 100%; height: 1px; position: relative; margin-top: 0.3rem; background-color: rgb(232, 232, 232);"></div>
+            </div> -->
+        </div>
+        <div id="dummy-order">
+            <span class="material-icons"
+                style="width: 70px; height: 70px; border-radius: 50%; background-color: darkgrey; text-align: center; color: white; font-size: 67px;">star</span>
+            <span
+                style="width: 100%; display: block; text-align: center; margin-top: 2rem; color: darkgray; font-size: 17px; text-align: center;">No
+                orders for now</span>
+        </div>
+        <div style="width: 100%; height: 70px; position: fixed; top: 0; background-color: white;">
+            <h3 style="width: 100%; height: 100%; text-align: center;">Orders</h3>
+        </div>
+    </div>
+    <!-- orders sec ends -->
+    <!-- customers sec -->
+    <div id="customers-sec">
+        <nav class="nav__customers">
+            <a class="nav__link--cust nav__link--cust--active">
+                <span>Reviews</span>
+                <i></i>
+            </a>
+            <a class="nav__link--msg">
+                <span>Messages</span>
+                <i></i>
+            </a>
+            <a class="nav__link--fol">
+                <span>Followers</span>
+                <i></i>
+            </a>
+        </nav>
+        <div
+            style="width: 100%; height: 1px; position: relative; box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.16), 0 1px 4px rgba(0, 0, 0, 0.23);">
+        </div>
+        <!-- customers page -->
+        <div id="cust-tab-view">
+            <button id="cust-btn-get-reviews" style="font-family: 'Lexend', sans-serif;">Get reviews</button>
+            <div id="reviews-container">
+                <!-- <div style="width: 100%; margin-top: 2rem;">
+                    <div style="width: 100%; display: flex; align-items: start; justify-content: start; position: relative;">
+                        <img id="reviwe-img" src="./images/profile_pic.png" />
+                        <div style="margin-left: 10px;">
+                            <span id="review-name">Ivan</span>
+                            <div style="width: 100%; display: flex; align-items: center; justify-content: center;">
+                                <span style="color: orange; font-size: 21px; margin-top: 0.3rem;" class="material-icons">star</span>
+                                <span style="color: orange; font-size: 21px; margin-top: 0.3rem;" class="material-icons">star</span>
+                                <span style="color: orange; font-size: 21px; margin-top: 0.3rem;" class="material-icons">star</span>
+                                <span style="color: orange; font-size: 21px; margin-top: 0.3rem;" class="material-icons">star</span>
+                                <span style="color: orange; font-size: 21px; margin-top: 0.3rem;" class="material-icons">star</span>
+                                <span id="review-rating-txt">5.0</span>
+                            </div>
+                            <span id="order-currency">No comment</span>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <!-- messages page -->
+        <div id="msg-tab-view">
+            <div
+                style="height: 250px; margin-top: 0px; margin-left: 1rem; margin-right: 1rem; border-radius: 8px; box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.16), 0 1px 4px rgba(0, 0, 0, 0.23);">
+                <span
+                    style="position: relative; display: block; font-size: 17px; color: black; top: 1rem;  margin-left: 1rem; margin-right: 1rem;">Edit
+                    your welcome message</span>
+                <span
+                    style="position: relative; font-size: 14px; color: rgb(114, 114, 114); top: 2.5rem; left: 1rem;">Create
+                    an automatic greeting for customers that message you</span>
+                <div style="position: relative; margin-top: 4rem; margin-left: 1rem; margin-right: 1rem;">
+                    <input type="text" id="input-message" placeholder="Enter broadcast message" />
+                    <img style="width: 40px; height: 40px; position: absolute; top: 0.1rem; left: 0.1rem; border-radius: 50%;"
+                        src="./images/ic_cawine_launcher_icon_round.png" />
+                </div>
+                <button id="save-sms-btn">Save message</button>
+            </div>
+            <div id="sms-container">
+                <!-- <div style="width: 100%; margin-top: 2rem;">
+                    <div style="width: 100%; display: flex; align-items: start; justify-content: start; position: relative;">
+                        <img id="sms-img" src="./images/profile_pic.png" />
+                        <div style="margin-left: 10px;">
+                            <span id="sms-name">Ivan</span>
+                            <span id="sms-text">No comment</span>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <!-- followers tab -->
+        <div id="followers-tab">
+            <button id="cust-btn-get-followers" style="font-family: 'Lexend', sans-serif;">Create welcome offer</button>
+            <div id="followers-container">
+                <!-- <div style="width: 100%; margin-top: 2rem;">
+                    <div style="width: 100%; display: flex; align-items: start; justify-content: start; position: relative;">
+                        <img id="followers-img" src="./images/profile_pic.png" />
+                        <div style="margin-left: 10px;">
+                            <span id="followers-name">Ivan</span>
+                            <span id="followers-phone">+256701234567</span>
+                            <span id="followers-text">No comment</span>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div style="width: 100%; height: 62px; position: fixed; top: 0; background-color: white;">
+            <h3 style="text-align: center;">Customers</h3>
+        </div>
+    </div>
+    <!-- customers sec ends -->
+    <!-- profile sec -->
+    <div id="profile-sec">
+        <div style="width: 100%; height: 220px; background-color: darkgray;">
+            <input type="file" id="poster-uri" style="display: none;" />
+            <img id="profile-poster" />
+        </div>
+        <div style="width: 100%; height: 80px;  background-color: rgb(232, 235, 232);">
+            <span id="profile-txt"></span>
+        </div>
+        <div style="width: 100%; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: block; margin-top: 1rem; margin-left: 1.5rem;">
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <span id="verified-name">Vendor</span>
+                    <span class="material-icons" style="color: red; margin-left: 0.7rem;">verified_user</span>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: start; justify-content: start; margin-top: 0.3rem; margin-left: 1.3rem;">
+            <div id="star-rating-bar">
+                
+            </div>
+            <span id="star-reviews">No reviews yet</span>
+            <div style="position: absolute; right: 1.5rem; text-align: center;">
+                <input type="file" id="logo-uri" style="display: none;" />
+                <img id="profile-logo-img" />
+                <span id="profile-logo-add">Add Logo</span>
+            </div>
+        </div>
+        <div style="display: flex; align-items: start; justify-content: start; margin-top: 0.7rem; margin-left: 1.3rem;">
+            <span id="profile-category">Category</span>
+        </div>
+        
+        <nav class="nav__profile">
+            <a class="nav__link--prof nav__link--prof--active">
+                <span>Overview</span>
+                <i></i>
+            </a>
+            <a class="nav__link--prod">
+                <span>Products</span>
+                <i></i>
+            </a>
+            <a class="nav__link--offers">
+                <span>Offers</span>
+                <i></i>
+            </a>
+            <a class="nav__link--cour">
+                <span>Couriers</span>
+                <i></i>
+            </a>
+        </nav>
+        <div style="width: 100%; height: 1px; position: relative; box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.16), 0 1px 4px rgba(0, 0, 0, 0.23);"></div>
+        <!-- overview -->
+        <div id="overview-sec">
+            <div id="edit-name-btn">
+                <p class="material-icons" style="color: red; margin-top: 1.2rem; margin-left: 2rem; margin-left: 1.5rem;">home_work</p>
+                <p id="profile-vendor-name">Vendor</p>
+            </div>
+            <div style="width: 100%; height: 60px; display: flex; align-items: start; justify-content: start; border-bottom: 1px solid rgb(199, 199, 199);">
+                <p class="material-icons" style="color: red; margin-top: 1.2rem; margin-left: 2rem; margin-left: 1.5rem;">category</p>
+                <p id="profile-vendor-cat">Category</p>
+            </div>
+            <div id="edit-place-btn">
+                <p class="material-icons" style="color: red; margin-top: 1.8rem; margin-left: 2rem; margin-left: 1.5rem;">location_on</p>
+                <p id="profile-vendor-place">Place</p>
+                <iframe width="90px" height="79px" loading="lazy" referrerpolicy="no-referrer-when-downgrade" id="map-panel"></iframe>
+            </div>
+            <div id="edit-phone-btn">
+                <p class="material-icons" style="color: red; margin-top: 1.2rem; margin-left: 2rem; margin-left: 1.5rem;">call</p>
+                <p id="profile-vendor-phone">+25670xxxxxxx</p>
+            </div>
+            <div style="width: 100%; height: 60px; display: flex; align-items: start; justify-content: start; border-bottom: 1px solid rgb(199, 199, 199);">
+                <p class="material-icons" style="color: red; margin-top: 1.2rem; margin-left: 2rem; margin-left: 1.5rem;">local_shipping</p>
+                <p id="profile-vendor-delivery">Kampala, Uganda</p>
+            </div>
+            <div style="width: 100%; height: 60px; display: flex; align-items: start; justify-content: start; border-bottom: 1px solid rgb(199, 199, 199);">
+                <p class="material-icons" style="color: red; margin-top: 1.2rem; margin-left: 2rem; margin-left: 1.5rem;">schedule</p>
+                <p id="profile-vendor-status">Online</p>
+                <input type="checkbox" checked id="profile-vendor-check-status" />
+            </div>
+            <div style="width: 100%; height: 60px; display: flex; align-items: start; justify-content: start; border-bottom: 1px solid rgb(199, 199, 199);">
+                <p class="material-icons" style="color: red; margin-top: 1.2rem; margin-left: 2rem; margin-left: 1.5rem;">moped</p>
+                <p style="color: rgb(94, 93, 93); font-weight: 400; font-size: 15px; margin-top: 1.2rem; margin-left: 2rem;">Free delivery</p>
+                <input type="checkbox" id="profile-vendor-check-delivery" />
+            </div>
+            <div style="width: 100%; height: 60px; display: flex; align-items: start; justify-content: start; border-bottom: 1px solid rgb(199, 199, 199);">
+                <p class="material-icons" style="color: red; margin-top: 1.2rem; margin-left: 2rem; margin-left: 1.5rem;">logout</p>
+                <input type="button" value="Logout" id="logout-btn" />
+            </div>
+        </div>
+        <!-- overview ends -->
+        <!-- products -->
+        <div id="productc-sec">
+            <div style="width: 100%; text-align: center;">
+                <button id="cust-btn-add-products">Add Products</button>
+                <div id="prod-container">
+                    <!-- <div style="height: 350px; margin-top: 1rem; margin-left: 0.4rem; margin-right: 0.4rem; border-radius: 8px; box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.16), 0 1px 4px rgba(0, 0, 0, 0.23);">
+                        <div style="width: 100%; height: 200px;">
+                            <div style="height: 200px; border-radius: 8px 8px 0px 0px; background-color: rgb(245, 205, 205);">
+                                <img id="prod-img" src="./images/ingredient_absolut-vodka_1000ml_ROW_packshot.webp" />
+                            </div>
+                        </div>
+                        <div style="width: 100%; position: relative; margin-top: 1rem;">
+                            <span id="prod-name">Absolut Vodka</span>
+                            <span id="prod-qty">1ml</span>
+                            <span id="prod-price">UGX110,000</span>
+                            <div style="display: flex; align-items: start; justify-content: start; margin-top: 0.4rem;">
+                                <span id="prod-desc">No description</span>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <!-- products ends -->
+        <!-- offers -->
+        <div id="offers-sec">
+            <div id="offers-btn">
+                <span style="color: rgb(114, 112, 112); font-size: 14px; margin-left: 0.4rem; margin-right: 2rem;">Add offers and get the attention of customers in your area</span>
+                <button style="width: 75px; height: 50px; border: 1px solid rgb(114, 112, 112); border-radius: 6px; margin-right: 0.4rem; color: red; font-size: 26px;">+</button>
+            </div>
+            <div id="offers-container">
+                <!-- <div style="height: 310px; margin-top: 1rem; margin-left: 1rem; margin-right: 1rem; border-radius: 10px; box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.16), 0 1px 4px rgba(0, 0, 0, 0.23);">
+                    <div style="width: 100%; height: 150px;">
+                        <div style="width: 100%; height: 150px; border-radius: 10px;">
+                            <img id="offer-img" src="./images/ingredient_absolut-vodka_1000ml_ROW_packshot.webp" />
+                        </div>
+                    </div>
+                    <div style="width: 100%; position: relative; margin-top: 1rem;">
+                        <span id="ffer-prod-price">UGX110,000</span>
+                        <span id="offer-txt">2,000 Off - Absolut Vodka</span>
+                        <span id="offer-title">Make Me Happy</span>
+                        <div style="display: flex; align-items: start; justify-content: start;">
+                            <span class="material-icons" style="margin-left: 0.5rem; color: red;">sell</span>
+                            <span id="offer-desc">Save me tonight guy</span>
+                        </div>
+                    </div>
+                    <div style="width: 100%; display: flex; align-items: end; justify-content: end;">
+                        <span class="material-icons" style="margin-right: 1rem; color: red;">delete</span>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <!-- offers ends -->
+        <!-- couriers -->
+        <div id="couriers-sec">
+            <div id="couriers-container">
+                <p id="couriers-dunmmy-txt">You have on couriers for now</p>
+                <!-- <div style="width: 100%; margin-top: 2rem;">
+                    <div style="width: 100%; display: flex; align-items: start; justify-content: start; position: relative;">
+                        <img id="courier-img" src="./images/profile_pic.png" />
+                        <div style="margin-left: 10px;">
+                            <span id="courier-name">Ivan</span>
+                            <span id="courier-phone">+256701234567</span>
+                            <span id="courier-text">No comment</span>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <!-- couriers ends -->
+        <div id="profile-header-sec">
+            <p id="profile-header-title">Loading ...</p>
+        </div>
+    </div>
+    <!-- profile sec ends -->
+     <div style="width: 100%; height: 90px;"></div>
+    <nav class="nav_home_selector">
+        <a class="nav__link--home nav__link--home--active">
+            <i class="material-icons">home_work</i>
+            <span>Home</span>
+        </a>
+        <a class="nav__link--orders">
+            <i class="material-icons">stars</i>
+            <span>Orders</span>
+        </a>
+        <a class="nav__link--customers">
+            <i class="material-icons">group</i>
+            <span>Customers</span>
+        </a>
+        <a class="nav__link--profile">
+            <i class="material-icons">edit</i>
+            <span>Profile</span>
+        </a>
+    </nav>
+    <dialog id="alert-dialog">
+        <div style="height: 100%;">
+            <li style="position: relative; list-style-type: none; font-size: 17px; font-weight: 700;">Alert!</li>
+            <li id="dlg-text">Email ID and
+                Password are required!</li>
+            <div style="position: relative; margin-top: 20px; align-items: end; justify-content: end; display: flex;">
+                <li id="dialog-no-btn" onclick="closeDlg()">NO</li>
+                <li id="dialog-yes-btn">YES</li>
+                <li id="dialog-ok-btn">OK</li>
+            </div>
+        </div>
+    </dialog>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-messaging.js"></script>
+    <script src="./js/col.js"></script>
+    <script src="./js/vendor.js"></script>
+    <script src="./js/selector.js"></script>
+    <script src="js/customers.js"></script>
+    <script src="./js/profile.js"></script>
+    <script src="./js/orders.js"></script>
+    <script type="module" src="./js/fcmtoken.js"></script>
+</body>
+
+</html>

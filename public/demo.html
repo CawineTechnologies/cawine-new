@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cawine | Products</title>
+    <link rel="icon" type="image/x-icon" href="images/cawine_main_icon_round.png">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/tm_styles.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<div id="loading-bar">
+    <img style="width: 80px; height: 70px;" src="images/giphy.webp" />
+</div>
+<img id="poster-vendor" />
+<div id="vendor-products-view">
+    <header>
+        <h2 id="vendor-title">cawine</h2>
+        <!-- <div class="shopping">
+                <img src="images/shopping.svg">
+                <span class="quantity">0</span>
+            </div> -->
+        <div id="close">
+            <li style="margin-top: 12px;" class="fa fa-arrow-left"></li>
+        </div>
+    </header>
+    <div id="wrapper-vendor-product">
+        <div id="inner-container-view-vendor">
+            <div id="product-list-vendor">
+
+            </div>
+        </div>
+    </div>
+    <!-- footer vendor -->
+    <div id="show-cart-btn" style="display: none;">
+        <p id="btn-cart-qty">ORDER 0 FOR UGX<strong id="btn-cart-price">0.00</strong></p>
+    </div>
+    <!-- cart -->
+    <div class="card">
+        <div id="cart-list-view">
+
+        </div>
+        <div
+            style="position: absolute; top: 0%; width: 100%; height: 123px; background-color: white; box-shadow: 0 14px 28px rgba(153, 153, 153, 0.22), 0 1px 1px rgba(153, 153, 153, 0.22);">
+        </div>
+        <li id="cart-close-btn" class="fa fa-close"></li>
+        <span id="cart-vendor-name">Cawine</span>
+        <span style="position: absolute; left: 20px; top: 4rem; font-weight: bolder; font-size: 20px;">My
+            Order</span>
+        <span id="cart-selected-qty">0 items selected - cawine</span>
+    </div>
+
+    <!-- order-payment-dlg -->
+    <div class="order-payment-dlg">
+        <div class="payment-dlg">
+            <h2 style="color: limegreen; position: relative; margin-left: 1rem;">Order delivered successufully</h2>
+            <p id="amount-title">Amount to
+                pay</p>
+            <p id="amount-to-pay">UGX<strong id="order-payment-amount">0</strong></p>
+            <div id="order-payment-btn">
+                <span id="cancel-status-btn">Thank you</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- order-warn-dlg -->
+    <div class="order-warn-dlg">
+        <div class="dialog">
+            <span style="margin-top: 2.2rem; margin-left: 1rem; margin-right: 4rem; position: absolute;">Once order is
+                placed, can not be cancelled! </br>Proceed to chekout?</span>
+            <div
+                style="position: absolute; width: 100%; height: 20%; border-radius: 0px 0px 10px 10px; display: flex; bottom: 0%; background-color: rgb(14, 13, 13);">
+                <div id="cancel-order-dlg-btn">
+                    <span style="color: white; position: absolute; top: 0.6rem; left: 7rem;">Cancel</span>
+                </div>
+                <div style="display: inline-block; height: 100%; width: 2px; background-color: rgb(136, 133, 133);">
+                </div>
+                <div id="proceed-dlg-btn">
+                    <span
+                        style="color: white; position: absolute; top: 0.6rem; right: 7rem; color: limegreen;">Proceed</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+<script src="js/index.js"></script>
+<script src="js/demo.js"></script>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Cawine | Login</title>
+    <link rel="icon" type="image/x-icon" href="images/cawine_main_icon_round.png">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/tm_styles.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body style="background-color: black;">
+
+    <div style="position: relative; margin-top: 6rem;">
+        <div
+            style="height: 100%; position: relative; display: flex; margin-top: 6rem; margin-left: 1.5rem; margin-right: 1.5rem;">
+            <input type="email" id="user-name"
+                style="width: 100%; border: 1px solid white; border-radius: 5px; background-color: white; color: black; height: 50px; padding-left: 1rem; padding-right: 1rem;"
+                placeholder="Enter Email" required="email" />
+        </div>
+        <!-- <div
+            style="height: 100%; position: relative; border: 1px solid darkgray; border-radius: 5px; display: flex; align-items: center; justify-content: space-between; top: 1.3rem;">
+            <input type="password" id="pass-word"
+                style="width: 80%; color: black; background-color: white; border-radius: 5px 0px 0px 5px; height: 50px; padding-left: 1rem; padding-right: 1rem;"
+                placeholder="Enter Password" required="password" />
+            <span class="material-icons"
+                style="width: 40px; height: 40px; border-radius: 50%; margin-top: 0.8rem; margin-right: 0.5rem;">visibility</span>
+        </div> -->
+        <div
+            style="height: 100%; position: relative; border: 1px solid white; border-radius: 5px; color: black; background-color: white; display: flex; align-items: center; justify-content: space-between; top: 1.3rem; margin-left: 1.5rem; margin-right: 1.5rem;">
+            <input type="password" id="pass-word"
+                style="width: 100%; color: black; background-color: white; border-radius: 5px 0px 0px 5px; height: 50px; padding-left: 1rem; padding-right: 1rem;"
+                placeholder="Enter Password" required="password" />
+            <span class="material-icons" onclick="showPassword()" id="show-pass"
+                style="width: 40px; height: 40px; cursor: pointer; border-radius: 50%; margin-top: 0.8rem; margin-left: 1rem; margin-right: 0.5rem;">visibility</span>
+        </div>
+        <div
+            style="height: 100%; position: relative; display: flex; top: 2.8rem; margin-left: 1.5rem; margin-right: 1.5rem;">
+            <input type="submit" value="LOGIN" onclick="myFunction()"
+                id="input-btn-login" />
+        </div>
+
+        <div
+            style="height: 100%; position: relative; display: flex; top: 2.8rem; margin-left: 1.5rem; margin-right: 1.5rem;">
+            <input type="button" value="Forgot Password?" id="btn-forgot-pass" onclick="openPasswordReset()"
+                style="width: 100%; height: 54px; border: none; background-color: transparent; color: limegreen; font-size: 15px;" />
+        </div>
+
+        <div
+            style="height: 100%; position: relative; display: flex; top: 2.8rem; margin-left: 1.5rem; margin-right: 1.5rem;">
+            <input type="button" value="New to cawine? Register now." id="btn-forgot-pass" onclick="openRegister()"
+                style="width: 100%; height: 54px; border: none; background-color: transparent; color: white; font-size: 15px;" />
+        </div>
+
+        <div id="customBtn" data-onsuccess="onSignIn"
+            style="height: 54px; border: 2px solid limegreen; cursor: pointer; border-radius: 5px; position: relative; display: flex; top: 6rem; margin-left: 1.5rem; margin-right: 1.5rem;">
+            <img style="position: absolute; width: 45px; height: auto; top: 4px; left: 4px;"
+                src="images/Google_Icon.webp" />
+            <span style="color: white; font-size: 17px; position: absolute; top: 0.9rem; left: 4.7rem;">Continue with
+                Google</span>
+        </div>
+
+        <div
+            style="height: 100%; position: relative; display: flex; top: 7rem; margin-left: 1.5rem; margin-right: 1.5rem;">
+            <input type="button" value="&copy; 2024 cawine, All Rights Reserved" id="btn-forgot-pass"
+                style="width: 100%; height: 54px; border: none; background-color: transparent; color: rgb(112, 110, 110); font-size: 10px;" />
+        </div>
+    </div>
+
+    <div class="head" id="head" style="background-color: black; display: flex; align-items: center; justify-content: space-between;">
+        <div style="margin-left: 1.5rem; cursor: pointer; display: flex; align-items: start; justify-content: start;">
+            <li style="color: white; list-style-type: none; font-size: 18px;">cawine</li>
+        </div>
+        <button
+            style="border: none; font-size: 18px; margin-right: 1.5rem; background-color: transparent; color: white; cursor: pointer;"
+            onclick="openPrivacy()">PRIVACY</button>
+    </div>
+
+    <div id="loading" style="display: none;">
+        <img src="images/loading.gif" width="70px" height="70px">
+    </div>
+    
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script src="js/login.js"></script>
+    <script>
+        let showPassword = () => {
+            let icon = document.getElementById('show-pass');
+            if (icon.innerHTML === "visibility") {
+                icon.innerHTML = "visibility_off";
+            } else {
+                icon.innerHTML = "visibility";
+            }
+            var x = document.getElementById("pass-word");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+        // renderApp();
+    </script>
+
+</body>

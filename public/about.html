@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cawine | About</title>
+    <link rel="icon" type="image/x-icon" href="/images/cawine_main_icon_round.png">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/tm_styles.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body style="background-color: white; position: fixed; overflow: hidden; overflow-y: scroll;">
+    <div style="position: fixed; height: 60px; width: 100%; top: 0%;">
+        <strong style="position: fixed; left: 2rem; top: 1.2rem;">About</strong>
+        <div id="menu-close-btn">
+            <li class="fa fa-close"></li>
+        </div>
+    </div>
+    <div style="width: 100%; height: 100%; padding: 10px; position: relative; top: 10%;">
+        <p>Cawine is the easiest, fastest, and most reliable way to order Drinks & Cake and have it delivered within an
+            hour. Cawine is Africa’s largest Alcohol & Cake marketplace and the best way to shop beer, wine, spirits and
+            Cakes. Our customers trust us to be part of their lives – their celebrations, parties, dinners and quiet
+            nights at home. We are there when it matters – committed to life’s moments and the people who create them.
+            We partner with the best retail stores and Cake shops in over 1,000 cities across Africa to serve up the
+            best buying experience. Cawine offers a huge selection and competitive pricing with a side of personalized
+            content. We’re changing one of the largest, oldest and most resilient industries in the world using tech…
+            and we love it.
+
+            Each delivery promptly arrives at its destination within 30-60 minutes.
+
+            Make it Happen…………………………………….with Cawine.</p>
+    </div>
+    <div id="order-history-exit-btn">
+        <p style="color: white;">Exit</p>
+    </div>
+    <script src="js/index.js"></script>
+    <script>
+        document.getElementById('menu-close-btn').addEventListener('click', (e) => {
+            window.location.href = "home.html";
+        });
+        document.getElementById('order-history-exit-btn').addEventListener('click', (e) => {
+            window.location.href = "home.html";
+        });
+    </script>
+</body>
+
+</html>
