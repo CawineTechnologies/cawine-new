@@ -18,8 +18,8 @@ export async function GET() {
     try {
         const { data } = await resend.emails.send({
             from: "cawine@cawineapp.com",
-            to: "cawine@gmail.com",
-            subject: "New from Cawine",
+            to: "cawinetechnologies@gmail.com",
+            subject: "New order from Cawine",
             html: "<strong>You have new order from client thank you!</strong>"
         });
 
@@ -29,5 +29,6 @@ export async function GET() {
         console.error("Error sending email:", error);
         return NextResponse.json({ message: "Failed to send email", error: error });
     }
+
 
 }
