@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>Discounts | Cawine</title>
+  <link rel="icon" type="image/x-icon" href="images/cawine_main_icon_round.png">
+  <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/tm_styles.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body style="background-image: url('images/img-12.jpg');">
+  <div id="loading-bar">
+    <img style="width: 80px; height: 70px;" src="images/giphy.webp" />
+  </div>
+  <div style="align-items: center; justify-content: center;">
+    <div id="disc-list">
+      <!-- <div id="disc-item-row">
+        <div id="disc-vendor">
+          <p id="disc-vendor-name">Loading ...</p>
+        </div>
+        <div id="disc-offer">
+          <p id="disc-offer-amount">Loading ...</p>
+        </div>
+        <img id="disc-img" src="images/cawine_main_icon_round.png" />
+        <p id="disc-sel-btn"></p>
+      </div> -->
+    </div>
+    <div style="position: fixed; width: 100%; height: 90px; background-color: white; top: 0%; left: 0%;"></div>
+    <h2 id="disc-tile">Offers</h2>
+    <div id="close-dic-btn">
+      <li class="fa fa-close"></li>
+    </div>
+  </div>
+
+  <script src="js/index.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, doc, setDoc, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { createUserWithEmailAndPassword, getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    var offerItem = "";
+    // let alertMe = localStorage.getItem('alert');
+    // window.alert(alertMe);
+    document.getElementById('close-dic-btn').addEventListener('click', (e) => {
+      window.location.href = "home.html";
+    });
+
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        getOffers();
+      }
+    });
+
+    async function getOffers() {
+      const querySnapshot = await getDocs(collection(db, "Offers"));
+      querySnapshot.forEach((doc) => {
+        console.log(doc);
+        offerItem += "<div id='disc-item-row'>";
+        offerItem += "<div id='disc-vendor'>";
+        offerItem += "<p id='disc-vendor-name'>"+ doc.data().vendorName +"</p>";
+        offerItem += "</div>";
+        offerItem += "<div id='disc-offer'>";
+        offerItem += "<p id='disc-offer-amount'>" + parseInt(doc.data().disc).toLocaleString() + " Off - " + doc.data().name + "</p>";
+        offerItem += "</div>";
+        offerItem += "<img id='disc-img' src='"+ doc.data().poster + "'/>";
+        offerItem += "<p id='disc-sel-btn'>" + doc.data().vendorID + "</p>";
+        offerItem += "</div>";
+      });
+
+      document.getElementById('disc-list').innerHTML = offerItem;
+
+      var loadingBar = document.getElementById('loading-bar');
+      loadingBar.style.display = "none";
+
+      var uidItem = document.querySelectorAll("#disc-item-row p");
+      for (var i = 0; i < uidItem.length; i++) {
+        uidItem[i].onclick = function () {
+          var uid = this.innerHTML;
+          // window.alert(uid);
+          localStorage.setItem('vendor_id', uid);
+          localStorage.setItem("bundle", "offers");
+          window.location.href = "vendorproducts.html";
+        }
+      }
+    }
+  </script>
+
+</body>
+
+</html>
