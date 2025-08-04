@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cawine | Add to cart</title>
+    <link rel="icon" type="image/x-icon" href="/images/cawine_main_icon_round.png">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/tm_styles.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body style="margin: 0%; padding: 0%;">
+    <!-- <div id="loading-bar">
+        <img style="width: 80px; height: 70px;" src="images/giphy.webp" />
+    </div> -->
+
+    <div id="cart-holder">
+        <img id="detail-img-vendor" src="./images/placeholder-1-1.png.webp" />
+
+        <div id="vendor-footer">
+            <p id="item-detail-name-vendor">Loading ...</p>
+            <p id="item-detail-qty-vendor">Loading ...</p>
+            <p id="item-detail-price-vendor">UGX<strong id="strong-price"></strong>.00</p>
+            <p id="item-detail-desc-vendor">Loading ...</p>
+            <p id="item-detail-vendor-prod">Loading ...</p>
+            <p id="item-detail-place-vendor">Loading ...</p>
+            <div id="cart-add-delete-btn">
+                <div id="decreas-cart-items-btn-vendor">
+                    <i id="delete-cart-icon" class="fa fa-minus"></i>
+                </div>
+                <strong id="cart-item-count-vendor">1</strong>
+                <div id="increas-cart-items-btn-vendor">
+                    <i id="add-cart-icon" class="fa fa-plus"></i>
+                </div>
+            </div>
+        </div>
+
+        <div style="width: 100%; height: 159px; position: relative;"></div>
+
+        <div id="close">
+            <li style="margin-top: 12px;" class="fa fa-arrow-left"></li>
+        </div>
+
+        <div id="btn-add-to-cart-vendor">
+            <p style="color: white; font-size: 15px;" id="cart-count">ADD 1 FOR UGX<strong id="cart-price">0.00</strong>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/index.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDocs, collection, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        var userId = "";
+        var vendorID = "";
+        var userName = "";
+        var vendorItem = "";
+        var vendorName = "";
+        var currency = "";
+        var subTotal = 0;
+        var productVendor = "";
+        let openShopping = document.querySelector('.shopping');
+        let closeShopping = document.querySelector('.close-cart');
+        let openCheckOut = document.querySelector('.closeShopping');
+        let closeCheckOut = document.querySelector('.close-check-out');
+        let list = document.querySelector('.list');
+        let listCard = document.querySelector('.listCard');
+        let body = document.querySelector('body');
+        let total = document.querySelector('.total');
+        let quantity = document.querySelector('.quantity');
+
+        document.getElementById('close').addEventListener('click', (e) => {
+            close();
+        });
+
+        let name = localStorage.getItem('name');
+        getVendorProdInfo(name);
+
+        // firebase.auth().onAuthStateChanged(function (user) {
+        //     if (user) {
+        //         userId = user.uid;
+        //         let name = localStorage.getItem('name');
+        //         getVendorProdInfo(name);
+        //     }
+        // });
+
+        async function getVendorProdInfo(itemId) {
+            const docRef = doc(db, "Products", itemId);
+            const docData = await getDoc(docRef);
+            if (docData.exists()) {
+                console.log(docData.data());
+                const vendorInfoRef = doc(db, "Vendors", docData.data().vendorID);
+                const vendorData = await getDoc(vendorInfoRef);
+                if (vendorData.exists()) {
+                    document.getElementById("detail-img-vendor").src = docData.data().poster;
+                    document.getElementById("item-detail-name-vendor").innerHTML = docData.data().name;
+                    document.getElementById("item-detail-qty-vendor").innerHTML = docData.data().qty;
+                    document.getElementById("item-detail-price-vendor").innerHTML = vendorData.data().currency +
+                        "<strong id='strong-price-vendor'>" + parseInt(docData.data().price).toLocaleString() + "</strong>";
+                    document.getElementById('item-detail-desc-vendor').innerHTML = docData.data().desc;
+
+                    document.getElementById('item-detail-vendor-prod').innerHTML = "From " + vendorData.data().name + ", delivers in 30 - 60 min";
+                    document.getElementById('item-detail-place-vendor').innerHTML = `Delivery fee: ${vendorData.data().currency}`
+                        + parseInt(vendorData.data().deliveryFee).toLocaleString();
+
+                    document.getElementById("cart-count").innerHTML = "ADD " + 1 + " FOR " + vendorData.data().currency +
+                        "<strong id='cart-price'>" + parseInt(docData.data().price).toLocaleString() + "</strong>";
+                    document.getElementById('btn-add-to-cart-vendor').style.display = "flex";
+
+                    var dlg = document.getElementById("vendor-footer");
+                    dlg.style.display = "block";
+                    body.classList.remove('active');
+
+                    // var loadingBar = document.getElementById('loading-bar');
+                    // loadingBar.style.display = "none";
+
+                    var itemCount = 1;
+                    document.getElementById('increas-cart-items-btn-vendor').addEventListener('click', function (evt) {
+                        if (itemCount == 50) {
+                            itemCount = 50;
+                            return;
+                        }
+                        itemCount++;
+                        var price = parseInt(docData.data().price) * itemCount
+                        document.getElementById("strong-price-vendor").innerHTML = parseInt(price).toLocaleString();
+                        document.getElementById("cart-item-count-vendor").innerHTML = itemCount;
+
+                        document.getElementById("cart-count").innerHTML = "ADD " + itemCount + " FOR " + vendorData.data().currency +
+                            "<strong id='cart-price'>" + parseInt(price).toLocaleString() + "</strong>";
+
+                        reloadCard(docData.data().userID, docData.data().vendorID);
+                    });
+                    document.getElementById('decreas-cart-items-btn-vendor').addEventListener('click', function (evt) {
+                        var bundle = localStorage.getItem("bundle");
+                        if (itemCount == 1 && bundle == "cart") {
+                            localStorage.setItem("name", docData.data().name);
+                            localStorage.setItem("poster", docData.data().poster);
+                            window.location.href = "removeitem.html";
+                            return;
+                        }
+                        if (itemCount == 1) {
+                            itemCount = 1;
+                            return;
+                        }
+                        itemCount--;
+                        var price = parseInt(docData.data().price) * itemCount
+                        document.getElementById("strong-price-vendor").innerHTML = parseInt(price).toLocaleString();
+                        document.getElementById("cart-item-count-vendor").innerHTML = itemCount;
+
+                        document.getElementById("cart-count").innerHTML = "ADD " + itemCount + " FOR " + vendorData.data().currency +
+                            "<strong id='cart-price'>" + parseInt(price).toLocaleString() + "</strong>";
+
+                        reloadCard(docData.data().userID, docData.data().vendorID);
+                    });
+
+                    document.getElementById('btn-add-to-cart-vendor').addEventListener('click', function (evt) {
+                        firebase.auth().onAuthStateChanged(function (user) {
+                            if (user) {
+                                var map = {
+                                    poster: docData.data().poster,
+                                    name: docData.data().name,
+                                    desc: docData.data().desc,
+                                    orderPrice: "" + docData.data().price * itemCount,
+                                    category: docData.data().category,
+                                    itemCount: "" + itemCount,
+                                    price: docData.data().price,
+                                    qty: docData.data().qty,
+                                    userID: userId,
+                                    vendorID: docData.data().vendorID
+                                }
+
+                                var db = firebase.firestore();
+                                db.collection("Cart").doc(userId).collection("Items")
+                                    .doc(docData.data().name).set(map).then((e) => {
+                                        reloadCard(userId, docData.data().vendorID);
+                                        window.alert(`Item added to cart`);
+                                        var bundle = localStorage.getItem("bundle");
+                                        if (bundle == "cart") {
+                                            window.location.href = "cart.html";
+                                        } else if (bundle == "search") {
+                                            window.location.href = "whatcanwegetyou.html";
+                                        } else {
+                                            window.location.href = "vendorproducts.html";
+                                        }
+                                    });
+                            } else {
+                                window.location.assign("login.html");
+                            }
+                        });
+                    });
+                }
+            }
+        }
+
+        async function reloadCard(userId, vendorid) {
+            // listCard.innerHTML = '';
+            let count = 0;
+            var totalPrice = 0;
+            const querySnapshot = await getDocs(collection(db, "Cart", userId, "Items"));
+            querySnapshot.forEach((doc) => {
+                var vUid = doc.data().vendorID;
+                if (doc.data() != null && vendorid == vUid) {
+                    totalPrice += parseInt(doc.data().orderPrice);
+                    count += parseInt(doc.data().itemCount);
+                    //     let newDiv = document.createElement('li');
+                    //     newDiv.innerHTML = `
+                    // <div><img src="${doc.data().poster}"/></div>
+                    // <div>${doc.data().name}</div>
+                    // <div>${parseInt(doc.data().orderPrice).toLocaleString()}</div>
+                    // <div>
+                    //     <button onclick="changeQuantity(${doc.id}, ${count - 1})">-</button>
+                    //     <div class="count">${parseInt(doc.data().itemCount)}</div>
+                    //     <button onclick="changeQuantity(${doc.id}, ${count + 1})">+</button>
+                    // </div>`;
+                    //     listCard.appendChild(newDiv);
+                }
+            })
+            // total.innerText = totalPrice.toLocaleString();
+            quantity.innerText = count;
+        }
+    </script>
+</body>
+
+</html>
