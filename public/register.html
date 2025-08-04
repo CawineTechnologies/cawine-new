@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Cawine | Register</title>
+    <link rel="icon" type="image/x-icon" href="images/cawine_main_icon_round.png">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/tm_styles.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body style="background-color: white;">
+
+    <div
+        style="position: relative; margin-top: 5.5rem; margin-left: 1.4rem; margin-right: 1.4rem; overflow: hidden; overflow-y: scroll;">
+        <span
+            style="position: relative; color: black; font-size: 15px;">STEP&nbsp;<strong>1</strong>&nbsp;OF&nbsp;<strong>2</strong></span>
+        <h3 style="width: 270px; position: relative; font-weight: 900;">Enter your email and password to start your
+            registration</h3>
+        <span style="position: relative; color: black; font-size: 15px;">Almost there! Just one step and you are
+            done.</span>
+        <h4 style="width: 270px; position: relative; font-weight: 900;">Create your account</h4>
+        <div style="height: 100%; position: relative; display: flex;">
+            <input type="email" id="user-name"
+                style="width: 100%; border: 1px solid darkgray; border-radius: 5px; background-color: white; color: black; height: 50px; padding-left: 1rem; padding-right: 1rem;"
+                placeholder="Enter Email" required="email" />
+        </div>
+        <div
+            style="height: 100%; position: relative; border: 1px solid darkgray; border-radius: 5px; display: flex; align-items: center; justify-content: space-between; top: 1.3rem;">
+            <input type="password" id="pass-word"
+                style="width: 100%; color: black; background-color: white; border-radius: 5px 0px 0px 5px; height: 50px; padding-left: 1rem; padding-right: 1rem;"
+                placeholder="Enter Password" required="password" />
+            <span class="material-icons" id="show-pass" onclick="showPassword()"
+                style="width: 40px; height: 40px; cursor: pointer; border-radius: 50%; margin-top: 0.8rem; margin-left: 1rem; margin-right: 0.5rem;">visibility</span>
+        </div>
+        <div style="height: 100%; position: relative; display: flex; top: 3rem;">
+            <input type="checkbox" style="position: relative;" id="check-terms" /><label for="check-terms"
+                style="margin-left: 1rem; font-size: 13px;">I am age of 18+ and I agree to&nbsp;<span
+                    style="color: limegreen;">Terms&nbsp;</span>and&nbsp;<span
+                    style="color: limegreen;">Conditions</span></label>
+        </div>
+        <div style="height: 100%; position: relative; display: flex; top: 5rem;">
+            <input type="submit" value="CONTINUE" id="register-btn"
+                style="width: 100%; border: none; border-radius: 5px; background-color: limegreen; height: 54px; color: white; font-size: 17px;" />
+        </div>
+        <div
+            style="height: 100%; position: relative; display: flex; margin-top: 6rem; margin-left: 1.5rem; margin-right: 1.5rem;">
+            <input type="button" value="Already have an account? Login." onclick="openLogin()"
+                style="width: 100%; height: 54px; border: none; background-color: transparent; color: black; font-size: 15px;" />
+        </div>
+        <div id="customBtn" data-onsuccess="onSignIn"
+            style="height: 54px; border: 2px solid limegreen; cursor: pointer; border-radius: 5px; position: relative; display: flex; align-items: start; justify-content: start; top: 2rem;">
+            <img style="width: 45px; height: auto; margin-top: 4px; margin-left: 4px;" src="images/Google_Icon.webp" />
+            <span style="color: black; font-size: 17px; margin-top: 0.9rem; margin-left: 1.6rem;">Continue with
+                Google</span>
+        </div>
+        <div style="width: 100%; height: 100px; position: relative;"></div>
+    </div>
+
+    <div class="head" id="head" style="background-color: white;">
+        <div style="margin-left: 1.5rem; cursor: pointer; display: flex; align-items: start; justify-content: start;"
+            id="exit">
+            <li style="color: black;" class="fa fa-arrow-left"></li>
+            <li style="color: black; margin-left: 2rem; list-style-type: none;">cawine</li>
+        </div>
+        <button id="privacy-txt-btn" style="color: black;">PRIVACY</button>
+    </div>
+
+    <div id="loading" style="display: none;">
+        <img src="images/loading.gif" width="70px" height="70px">
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/register.js"></script>
+    <script>
+        let showPassword = () => {
+            let icon = document.getElementById('show-pass');
+            if (icon.innerHTML === "visibility") {
+                icon.innerHTML = "visibility_off";
+            } else {
+                icon.innerHTML = "visibility";
+            }
+            var x = document.getElementById("pass-word");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+        // renderApp();
+    </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { createUserWithEmailAndPassword, getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyByGzJ_xF3kMCK1JQvEUWvJeBaB-NQkmno",
+            authDomain: "cawine-736ac.firebaseapp.com",
+            databaseURL: "https://cawine-736ac-default-rtdb.firebaseio.com",
+            projectId: "cawine-736ac",
+            storageBucket: "cawine-736ac.appspot.com",
+            messagingSenderId: "643248682742",
+            appId: "1:643248682742:web:c2ae192bf3cfbfe818ded7",
+            measurementId: "G-2HEXE80L51"
+        };
+
+        const firebaseApp = initializeApp(firebaseConfig);
+        const firebaseAuth = getAuth(firebaseApp);
+        const db = getFirestore(firebaseApp)
+
+        async function register() {
+
+            var email = document.getElementById("user-name").value;
+            var password = document.getElementById("pass-word").value;
+
+            if (email != "" && password != "") {
+                document.getElementById('loading').style.display = "flex";
+
+                createUserWithEmailAndPassword(firebaseAuth, email, password)
+                    .then(userCred => {
+
+                        var userId = userCred.user?.uid;
+                        var email = userCred.user?.email;
+
+                        var map = {
+                            email: email,
+                            userID: userId
+                        }
+                        setDoc(doc(db, "Users", userId), map)
+                            .then(function (e) {
+                                document.getElementById('loading').style.display = "none";
+                                window.location.href = "index.html";
+                                console.log(userId, email);
+                            });
+                    }).catch (errro => {
+                        alert(`Cawine says the email ID is already in use, try to use another email ID;`);
+                        document.getElementById('loading').style.display = "none";
+                    });
+
+            }
+            else {
+                document.getElementById('loading').style.display = "none";
+                window.alert("Please all fields are required!");
+            }
+        };
+
+        document.getElementById('register-btn').addEventListener('click', (e) => {
+            register();
+        });
+
+        document.getElementById('privacy-txt-btn').addEventListener('click', (e) => {
+            open("privacy.html");
+        });
+
+        document.getElementById('exit').addEventListener('click', (e) => {
+            close();
+        });
+    </script>
+
+</body>
