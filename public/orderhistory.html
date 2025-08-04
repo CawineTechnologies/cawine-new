@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Order Status</title>
+    <link rel="icon" type="image/x-icon" href="images/cawine_main_icon_round.png">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/tm_styles.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body style="margin: 0%; padding: 0%; background-color: white;">
+    <div id="order-status-view">
+        <div id="status-dlg-view">
+            <div style="width: 100%; height: 430px; background-color: rgb(241, 241, 241); position: absolute;"></div>
+            <span
+                style="color: grey; position: relative; padding-top: 10px; padding-left: 20px; padding-right: 20px; padding-bottom: 20px; margin-left: 0%; margin-right: 0%; background-color: rgb(252, 241, 241); font-size: 13px; align-items: center; justify-content: center; display: flex; text-align: center;">Order
+                delivry process due to vendor's time, once order delays you may contact vendor for more details.</span>
+            <h3 style="position: relative; margin-left: 1rem;">Order Status</h3>
+            <div style="position: relative; top: 13px; width: 20px; margin-left: 1rem;">
+                <li
+                    style="width: 20px; height: 20px; border-radius: 50%; position: relative; background-color: limegreen; list-style-type: none;">
+                </li>
+                <li
+                    style="width: 3px; height: 60px; margin-left: 40%; background-color: limegreen; list-style-type: none;">
+                </li>
+                <li id="prepare-order-dot"></li>
+                <li id="prepare-order-line"></li>
+                <li id="oredr-in-transit-dot"></li>
+                <li id="order-in-transit-line"></li>
+                <li id="order-received-dot"></li>
+            </div>
+            <span id="cancel-order-btn">CANCEL ORDER</span>
+        </div>
+    </div>
+    <dialog id="alert-dialog">
+        <div style="height: 100%;">
+            <li style="position: relative; list-style-type: none; font-size: 17px; font-weight: 700;">Alert!</li>
+            <li style="position: relative; list-style-type: none; font-weight: 500; margin-top: 10px;">Are you sure you
+                want to cancel this order?</li>
+            <div style="position: relative; margin-top: 20px; align-items: end; justify-content: end; display: flex;">
+                <li id="dialog-no-btn">NO</li>
+                <li id="dialog-yes-btn">YES</li>
+            </div>
+        </div>
+    </dialog>
+    <div id="order-status-txt-container">
+        <li id="order-received-text">Your order is being sent to vendor</li>
+        <li style="position: relative; height: 58px; list-style-type: none;"></li>
+        <li id="prepare-order-text">Order is being prepared</li>
+        <li style="position: relative; height: 40px; list-style-type: none;"></li>
+        <li id="order-in-transit-text">Order in transit</li>
+        <li style="position: relative; height: 90px; list-style-type: none;"></li>
+        <li id="order-delivered-text">Order received</li>
+    </div>
+    <h3 id="contact-vendor-btn">Order delayed? Contact vendor</h3>
+    <div
+        style="width: 100%; position: fixed; top: 0%; height: 70px; background-color: white; box-shadow: 0 3px 6px rgba(44, 44, 44, 0.23), 0 0.5px 0.5px rgba(44, 44, 44, 0.23);">
+        <li id="close-order-status-btn" class="fa fa-close"></li>
+        <span style="color: grey; position: absolute; top: 1.2rem; font-size: 13px; margin-left: 5.5rem;">cawine</span>
+        <span id="order-status-titel">Loading ...</span>
+    </div>
+    <!-- order payment dlg -->
+    <div class="order-payment-dlg">
+        <div class="payment-dlg">
+            <h2 style="color: limegreen; position: relative; margin-left: 1rem;">Order delivered successufully</h2>
+            <p id="amount-title">Amount to pay</p>
+            <p id="amount-to-pay">UGX<strong id="order-payment-amount">0</strong></p>
+            <div id="order-payment-btn">
+                <span id="cancel-status-btn">OK, Thanks</span>
+            </div>
+        </div>
+    </div>
+    <script src="js/index.js"></script>
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDocs, collection, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        var timer;
+        var userId = "";
+        var vendorID = "";
+        var userName = "";
+        var vendorItem = "";
+        var vendorName = "";
+        var currency = "UGX";
+        var subTotal = 0;
+        var productVendor = "";
+        let openShopping = document.querySelector('.shopping');
+        let closeShopping = document.querySelector('.close-cart');
+        let openCheckOut = document.querySelector('.closeShopping');
+        let closeCheckOut = document.querySelector('.close-check-out');
+        let list = document.querySelector('.list');
+        let listCard = document.querySelector('.listCard');
+        let body = document.querySelector('body');
+        let total = document.querySelector('.total');
+        let quantity = document.querySelector('.quantity');
+
+        let products = [];
+        let count = 0;
+        var totalPrice = 0;
+        var cartItemRow = "";
+        var countryCode = "";
+        var phoneNo = "";
+
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                userId = user.uid;
+                checkOrder(userId);
+                vendorID = localStorage.getItem("vendor_id");
+                vendorName = localStorage.getItem("vendor_name");
+                getUserInfo(userId, vendorID);
+                getVendorInfo(vendorID);
+                document.getElementById('order-status-titel').innerHTML = vendorName;
+                startTimer(userId);
+            }
+        });
+
+        function startTimer(userId) {
+            var sec = 0;
+            timer = setInterval(function () {
+                checkOrder(userId)
+                // sec++;
+                // console.log(sec);
+            }, 1000);
+        }
+
+        async function getVendorInfo(vUid) {
+            var db = firebase.firestore();
+            db.collection("Vendors").doc(vUid).get().then((doc) => {
+                if(doc.data() != null) {
+                    countryCode = doc.data().countryCode;
+                    phoneNo = doc.data().phoneNumber;
+                }
+            });
+        }
+
+        const alertDlg = document.getElementById('alert-dialog');
+        document.getElementById('cancel-order-btn').addEventListener('click', (e) => {
+            alertDlg.showModal();
+        });
+        document.getElementById('dialog-no-btn').addEventListener('click', (e) => {
+            alertDlg.close();
+        });
+        document.getElementById('dialog-yes-btn').addEventListener('click', (e) => {
+            deleteOrder();
+        });
+
+        document.getElementById('close-order-status-btn').addEventListener('click', (e) => {
+            window.location.href = "vendorproducts.html";
+        });
+
+        document.getElementById('contact-vendor-btn').addEventListener('click', (e) => {
+            window.open('tel:+'+countryCode+phoneNo, '_self');
+        });
+
+        async function deleteOrder() {
+            var map = {
+                order: "cancelled"
+            }
+            var newDb = firebase.firestore();
+            newDb.collection("New orders").doc(userId).update(map).then(function (e) {
+                window.alert('Order cancelled!');
+                window.location.href = "home.html";
+            });
+        }
+
+        async function checkOrder(uid) {
+            const userRef = doc(db, "New orders", uid);
+            const userData = await getDoc(userRef);
+            if (userData.exists()) {
+
+                var order = userData.data().order;
+                if (order == "preparing") {
+
+                    body.classList.add('status');
+                    document.getElementById('prepare-order-dot').style.backgroundColor = "limegreen";
+                    document.getElementById('prepare-order-text').style.color = "limegreen";
+                    document.getElementById('prepare-order-line').style.backgroundColor = "limegreen";
+                    document.getElementById('cancel-order-btn').style.display = "none";
+                } else if (order == "delivering") {
+                    body.classList.add('status');
+                    document.getElementById('prepare-order-dot').style.backgroundColor = "limegreen";
+                    document.getElementById('prepare-order-text').style.color = "limegreen";
+                    document.getElementById('prepare-order-line').style.backgroundColor = "limegreen";
+                    document.getElementById('oredr-in-transit-dot').style.backgroundColor = "limegreen";
+                    document.getElementById('order-in-transit-line').style.backgroundColor = "limegreen";
+                    document.getElementById('order-in-transit-text').style.color = "limegreen";
+                    document.getElementById('cancel-order-btn').style.display = "none";
+                } else if (order == "received") {
+                    document.getElementById('order-payment-amount').innerHTML = subTotal.toLocaleString();
+                    body.classList.add('payment');
+                    document.getElementById('order-payment-btn').addEventListener('click', (evn) => {
+                        var map = {
+                            order: "completed"
+                        }
+                        var db = firebase.firestore();
+                        db.collection("New orders").doc(userId).update(map).then(function (e) {
+                            var newDb = firebase.firestore();
+                            newDb.collection("Cart").doc(userId).collection("Items").get().then((querySnapshot) => {
+                                querySnapshot.forEach((doc) => {
+                                    var id = doc.id;
+                                    var delDb = firebase.firestore();
+                                    delDb.collection("Cart").doc(userId).collection("Items")
+                                        .doc(id).delete().then((e) => {
+                                            clearInterval(timer);
+                                            window.location.href = "home.html";
+                                        })
+                                });
+                            });
+                        });
+                    });
+                }
+            }
+        }
+
+        async function getUserInfo(currentUser, currenrVendor) {
+            const userRef = doc(db, "Users", currentUser);
+            const userData = await getDoc(userRef);
+            if (userData.exists()) {
+                userName = userData.data().fName;
+                loadOrderPricing(userData.data().userID, currenrVendor);
+            }
+        }
+
+        async function loadOrderPricing(cUser, cVendor) {
+            let count = 0;
+            var totalPrice = 0;
+            var allDocData;
+            const querySnapshot = await getDocs(collection(db, "Cart", cUser, "Items"));
+            querySnapshot.forEach((doc) => {
+                var vUid = doc.data().vendorID;
+                if (cVendor == vUid) {
+                    count += parseInt(doc.data().itemCount);
+                    allDocData = doc;
+                    totalPrice += parseInt(doc.data().orderPrice);
+                    subTotal = parseInt(totalPrice) + 5000;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
