@@ -9,7 +9,7 @@ export default function Home() {
 
   const mainBg = {
     backgroundColor: 'lightgrey',
-    borderRadius: '8px',
+    borderRadius: '20px',
     padding: '20px',
   }
 
