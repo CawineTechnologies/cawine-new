@@ -2,14 +2,24 @@ import Image from "next/image";
 
 
 export default function Home() {
+  const backgroundStyle = {
+    backgroundImage: 'url("/cawine_bg.avif")',
+    backgroundSize: 'cover',
+  };
+
+  const mainBg = {
+    backgroundColor: 'lightgrey',
+    borderRadius: '8px',
+    padding: '20px',
+  }
 
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-center">
+    <div style={backgroundStyle} className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+      <main style={mainBg} className="flex flex-col gap-[32px] row-start-2 items-center sm:items-center">
         <Image
           className="dark:invert"
           src="/cawine_main_icon_round.png"
-          alt="Next.js logo"
+          alt="cawine logo"
           width={70}
           height={70}
           priority
@@ -17,7 +27,7 @@ export default function Home() {
         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
           <li className="mb-2 tracking-[-.01em]">
             You can start by viewing all our services.
-            
+
           </li>
           <li className="tracking-[-.01em]">
             Login or register to start order with us.
@@ -30,7 +40,7 @@ export default function Home() {
             href="/landing.html"
             rel="noopener noreferrer"
           >
-            
+
             Continue
           </a>
           <a
@@ -88,5 +98,5 @@ export default function Home() {
       </footer>
     </div>
   );
-  
+
 }
