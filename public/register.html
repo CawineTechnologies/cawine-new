@@ -145,7 +145,7 @@
                         setDoc(doc(db, "Users", userId), map)
                             .then(function (e) {
                                 document.getElementById('loading').style.display = "none";
-                                window.location.href = "index.html";
+                                window.location.href = "home.html";
                                 console.log(userId, email);
                             });
                     }).catch (errro => {
