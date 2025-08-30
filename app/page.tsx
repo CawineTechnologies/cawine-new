@@ -1,7 +1,20 @@
 import Image from "next/image";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { log } from "console";
 
 
 export default function Home() {
+  if (typeof window !== 'undefined') {
+    const vendoId = localStorage.getItem('vendo_id');
+    log(vendoId);
+  }
+
+  // const snapshot = await getDocs(collection(db, 'Products'));
+  // const products = snapshot.docs.map(doc => ({
+  //   id: doc.id, ...doc.data()
+  // }));
+
   const backgroundStyle = {
     backgroundImage: 'url("/cawine_bg.avif")',
     backgroundSize: 'cover',
