@@ -7,7 +7,7 @@ import FlutterwavePayButton from "@/components/ui/buttons/FlutterwavePayButton";
 import {
   dlgCartItemsTotal,
   vendorUid,
-  email,
+  emailAdd,
   vendorTitle,
   userUid,
   currency,
@@ -102,12 +102,12 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        to: email,
+        to: emailAdd,
         subject: "New order",
         html: `<strong>From ${userName} at ${deliverTo} ordered ${itemCount} items for ${currency} ${cartTotal.toLocaleString()}</strong>`
       }),
     });
-    console.log("Email sent successfully to: " + email);
+    console.log("Email sent successfully to: " + emailAdd);
 
     const data = await res.json();
     setEmailStatus(JSON.stringify(data));
