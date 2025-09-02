@@ -28,6 +28,7 @@ interface CheckoutDialogProps {
   onClose: () => void;
 }
 
+let userName;
 export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const [orderNotes, setOrderNotes] = useState("");
   const [scheduleDate, setScheduleDate] = useState("");
@@ -261,3 +262,5 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
     </div>
   );
 }
+export { userUid }
+
