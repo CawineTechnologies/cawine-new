@@ -28,7 +28,7 @@ type CartItem = {
 let userUid = "";
 let emailAdd = "";
 let vendorUid = "";
-let currency = "";
+let currencyV = "";
 let deviceToken = "";
 let vendorTitle = "";
 let itemCount = 0;
@@ -144,7 +144,7 @@ export default function MyOrderPage() {
       const vendorSnap = await getDoc(doc(db, "Vendors", items[0].vendorID));
       if (vendorSnap.exists()) {
         setVendorName(vendorSnap.data().name);
-        currency = vendorSnap.data().currency;
+        currencyV = vendorSnap.data().currency;
         vendorTitle = vendorSnap.data().name;
         emailAdd = vendorSnap.data().email;
       }
@@ -224,7 +224,7 @@ export default function MyOrderPage() {
 }
 export { 
   userUid,
-  currency,
+  currencyV,
   itemCount,
   vendorTitle,
   emailAdd,
