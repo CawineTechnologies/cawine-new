@@ -10,7 +10,7 @@ import {
   emailAdd,
   vendorTitle,
   userUid,
-  currency,
+  currencyV,
   itemCount
 } from "@/app/cart/page";
 import {
@@ -76,7 +76,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       price: String(subTotal),
       deliveryFee: "5000",
       paymentType: "Cash",
-      currency: currency,
+      currency: currencyV,
       notes: orderNotes,
     };
 
@@ -105,7 +105,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       body: JSON.stringify({
         to: emailAdd,
         subject: "New order",
-        html: `<strong>From ${userName} at ${deliverTo} ordered ${itemCount} items for ${currency} ${cartTotal.toLocaleString()}</strong>`
+        html: `<strong>From ${userName} at ${deliverTo} ordered ${itemCount} items for ${currencyV} ${cartTotal.toLocaleString()}</strong>`
       }),
     });
     console.log("Email sent successfully to: " + emailAdd);
@@ -129,7 +129,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       body: JSON.stringify({
         token: deviceToken,
         title: "New order",
-        body: `From ${userName} at ${deliverTo} ordered ${itemCount} items for ${currency} ${cartTotal.toLocaleString()}`
+        body: `From ${userName} at ${deliverTo} ordered ${itemCount} items for ${currencyV} ${cartTotal.toLocaleString()}`
       }),
     });
     console.log("Message sent successfully to " + deviceToken);
