@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { userUid } from "@/components/checkoutDialog";
 import { db } from "@/lib/firebase";
-import { currency } from "@/app/cart/page";
+import { currencyV } from "@/app/cart/page";
 import {
   doc,
   getDoc,
@@ -58,7 +58,7 @@ export default function FlutterwavePayButton({ amount }: { amount: number }) {
       public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_KEY,
       tx_ref: Date.now().toString(),
       amount,
-      currency: currency,
+      currency: currencyV,
       payment_options: "card,mobilemoney,ussd",
       customer: {
         email: "cawinetechnologies@gmail.com",
