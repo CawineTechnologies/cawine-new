@@ -1,6 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { userUid } from "@/components/checkoutDialog";
+import { db } from "@/lib/firebase";
+import { currency } from "@/app/cart/page";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  getDocs,
+  collection,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 declare global {
   interface Window {
@@ -8,9 +20,20 @@ declare global {
   }
 }
 
+let fName = "", emailAdd = "", phoneNo = "", lName = "";
+async function userDetails() {
+  const userSnap = await getDoc(doc(db, "Users", userUid));
+  if (userSnap.exists()) {
+    fName = userSnap.data().fName;
+    lName = userSnap.data().lName;
+    emailAdd = userSnap.data().email;
+    phoneNo = userSnap.data().phoneNumber;
+  }
+}
+
 export default function FlutterwavePayButton({ amount }: { amount: number }) {
   const [loaded, setLoaded] = useState(false);
-
+  userDetails();
   useEffect(() => {
     if (!document.querySelector("#flutterwave-script")) {
       const script = document.createElement("script");
@@ -35,12 +58,12 @@ export default function FlutterwavePayButton({ amount }: { amount: number }) {
       public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_KEY,
       tx_ref: Date.now().toString(),
       amount,
-      currency: "UGX",
+      currency: currency,
       payment_options: "card,mobilemoney,ussd",
       customer: {
-        email: "customer@example.com",
-        phonenumber: "0700000000",
-        name: "John Doe",
+        email: "cawinetechnologies@gmail.com",
+        phonenumber: phoneNo,
+        name: fName,
       },
       customizations: {
         title: "Cawine Order Payment",
