@@ -1,3 +1,5 @@
+
+
 // Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyByGzJ_xF3kMCK1JQvEUWvJeBaB-NQkmno",
@@ -13,17 +15,22 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 firebase.auth.Auth.Persistence.LOCAL;
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        window.location.assign("home.html");
+    }
+});
 
 // let googleUser = {};
 let auth = firebase.auth();
 let db = firebase.firestore();
 
 let openRegister = () => {
-    open("register.html");
+    window.location.assign("register.html");
 }
 
 let openPrivacy = () => {
-    open("privacy.html");
+    window.location.assign("privacy.html");
 }
 
 let exit = () => {
@@ -31,7 +38,7 @@ let exit = () => {
 }
 
 let openPasswordReset = () => {
-    open("resetPassword.html");
+    window.location.assign("resetPassword.html");
 }
 
 let signInWithGoogle = () => {
