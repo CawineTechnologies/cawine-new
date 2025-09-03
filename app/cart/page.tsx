@@ -45,8 +45,6 @@ export default function MyOrderPage() {
   const [vendorName, setVendorName] = useState<string>("Loading...");
   const [subTotal, setSubTotal] = useState<number>(0);
   const [deliveryFee] = useState<number>(5000);
-  const [status, setStatus] = useState("");
-  const [emailStatus, setEmailStatus] = useState("");
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   // Request push permission
@@ -65,40 +63,6 @@ export default function MyOrderPage() {
     } catch (error) {
       console.error("Error getting token:", error);
     }
-  }
-
-  async function sendPush() {
-    const res = await fetch("/api/send-push", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token: deviceToken,
-        title: "New order",
-        body: "From Sarah needs items of UGX 1,200,000 now!",
-      }),
-    });
-    console.log("Message sent successfully to " + deviceToken);
-
-    const data = await res.json();
-    setStatus(JSON.stringify(data));
-  }
-
-  async function sendEmail() {
-    const res = await fetch("/api/send-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        to: "mcqueensarah48@gmail.com",
-        subject: "Hi there!",
-        html: "<strong>How are you today!</strong>",
-      }),
-    });
-    console.log("Email sent successfully");
-
-    const data = await res.json();
-    setEmailStatus(JSON.stringify(data));
-
-    sendPush();
   }
 
   // Listen for logged-in user
