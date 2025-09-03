@@ -49,14 +49,14 @@ export default function MyOrderPage() {
 
   // Request push permission
   async function requestPermissionAndToken() {
+    if (typeof window === "undefined") return; // ✅ skip on server
     try {
       const permission = await Notification.requestPermission();
-      if (permission === "granted") {
+      if (permission === "granted" && messaging) {
         const token = await getToken(messaging, {
-          vapidKey: process.env.WEB_PUSH_CERTIFICATE_KEY_PAIR,
+          vapidKey: process.env.NEXT_PUBLIC_WEB_PUSH_CERTIFICATE_KEY_PAIR,
         });
         console.log("Device token:", token);
-        setDeviceToken(token);
       } else {
         console.warn("Notification permission not granted.");
       }
