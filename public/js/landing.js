@@ -12,6 +12,11 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 firebase.auth.Auth.Persistence.LOCAL;
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        window.location.assign("home.html");
+    }
+});
 
 
 let navbar = document.getElementById('landing-nav-bar');
@@ -53,32 +58,6 @@ let initLocation = () => {
 }
 
 initLocation();
-
-// var array = [];
-// navigator.geolocation.getCurrentPosition(function(position) {
-//    var lat = position.coords.latitude;
-//    var lon = position.coords.longitude;
-//    array.push(lat, lon); 
-//    locationCode()  
-// });
-
-// function locationCode() {
-//     saveUserLocation();
-// }
-
-// function saveUserLocation() {
-//     let db = firebase.firestore();
-//     let data = {
-//         geoPoint: array
-//       };
-      
-//       db.collection('Beta Users').doc("Location").set(data).then(() => {
-//         console.log(`Location is ${array.lat}, ` +
-//           `${array.data().lon}`);
-
-//           alert(array);
-//       });
-// }
 
 let openMaps = () => {
     localStorage.setItem("bundle", "landing");
