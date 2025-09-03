@@ -4,32 +4,25 @@ import { useState } from "react";
 import { db } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import FlutterwavePayButton from "@/components/ui/buttons/FlutterwavePayButton";
-import {
-  dlgCartItemsTotal,
-  vendorUid,
-  emailAdd,
-  vendorTitle,
-  userUid,
-  currencyV,
-  itemCount
-} from "@/app/cart/page";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  getDocs,
-  collection,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { useCartContext } from "@/lib/CartContext"; // 👈 new context
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 interface CheckoutDialogProps {
   open: boolean;
   onClose: () => void;
 }
 
-let userName;
 export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
+  const {
+    userUid,
+    vendorUid,
+    vendorTitle,
+    emailAdd,
+    currency,
+    itemCount,
+    dlgCartItemsTotal,
+  } = useCartContext(); // 👈 consume values here
+
   const [orderNotes, setOrderNotes] = useState("");
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
@@ -41,32 +34,35 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
   const [userName, setUserName] = useState("");
   const router = useRouter();
 
+  const deliveryFee = 5000;
+  const subTotal = dlgCartItemsTotal + deliveryFee;
+
+  if (!open) return null;
+
   async function sendOrder() {
-    console.log(userUid);
+    if (!userUid) return;
+
     const userSnap = await getDoc(doc(db, "Users", userUid));
     if (userSnap.exists()) {
       setUserName(userSnap.data().fName);
       setPhoneNumber(userSnap.data().phoneNumber);
       setDeliverTo(userSnap.data().deliverTo);
     }
+
     const d = new Date();
-
-    // 📅 formatted date (dd mm yyyy)
-    const date = `${String(d.getDate()).padStart(2, "0")} ${String(
+    const date = `${String(d.getDate()).padStart(2, "0")}/${String(
       d.getMonth() + 1
-    ).padStart(2, "0")} ${d.getFullYear()}`;
-
-    // ⏰ formatted time (hh:mm am/pm)
+    ).padStart(2, "0")}/${d.getFullYear()}`;
     const time = d.toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
     });
 
-    let order = {
+    const order = {
       dest: deliverTo,
       phone: phoneNumber,
-      vendorTitle: vendorTitle,
+      vendorTitle,
       orderTime: `Placed at: ${time}`,
       orderDate: date,
       vendorID: vendorUid,
@@ -74,38 +70,29 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       name: userName,
       order: "pending",
       price: String(subTotal),
-      deliveryFee: "5000",
+      deliveryFee: String(deliveryFee),
       paymentType: "Cash",
-      currency: currencyV,
+      currency,
       notes: orderNotes,
     };
 
     try {
       await setDoc(doc(db, "New orders", userUid), order);
-      sendEmail();
+      await sendEmail();
       router.push("/order");
     } catch (error) {
       console.error("Error placing order:", error);
     }
-  };
-
-  const cartTotal = dlgCartItemsTotal;
-  const deliveryFee = 5000;
-  const subTotal = cartTotal + deliveryFee;
-
-  if (!open) return null;
-
-  let deviceToken = "";
+  }
 
   async function sendEmail() {
-
     const res = await fetch("/api/send-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         to: emailAdd,
         subject: "New order",
-        html: `<strong>From ${userName} at ${deliverTo} ordered ${itemCount} items for ${currencyV} ${cartTotal.toLocaleString()}</strong>`
+        html: `<strong>From ${userName} at ${deliverTo} ordered ${itemCount} items for ${currency} ${dlgCartItemsTotal.toLocaleString()}</strong>`,
       }),
     });
     console.log("Email sent successfully to: " + emailAdd);
@@ -113,11 +100,13 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
     const data = await res.json();
     setEmailStatus(JSON.stringify(data));
 
-    sendPush();
-    console.log(deviceToken);
+    await sendPush();
   }
 
   async function sendPush() {
+    let deviceToken = "";
+    if (!vendorUid) return;
+
     const vendorSnap = await getDoc(doc(db, "Vendors FCM Tokens", vendorUid));
     if (vendorSnap.exists()) {
       deviceToken = vendorSnap.data().token;
@@ -129,16 +118,15 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
       body: JSON.stringify({
         token: deviceToken,
         title: "New order",
-        body: `From ${userName} at ${deliverTo} ordered ${itemCount} items for ${currencyV} ${cartTotal.toLocaleString()}`
+        body: `From ${userName} at ${deliverTo} ordered ${itemCount} items for ${currency} ${dlgCartItemsTotal.toLocaleString()}`,
       }),
     });
-    console.log("Message sent successfully to " + deviceToken);
 
+    console.log("Message sent successfully to " + deviceToken);
     const data = await res.json();
     setStatus(JSON.stringify(data));
-
-    console.log(deviceToken);
   }
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
       <div className="bg-white w-full max-w-md rounded-lg shadow-lg overflow-hidden">
@@ -185,7 +173,6 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
               <span className="text-green-600">✔</span>
             </div>
             <div className="mt-3">
-              {/* Flutterwave Button (Script-based) */}
               <FlutterwavePayButton amount={subTotal} />
             </div>
           </div>
@@ -194,7 +181,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
           <div className="bg-gray-50 p-3 rounded space-y-2">
             <div className="flex justify-between text-sm">
               <span>Products</span>
-              <span>UGX {cartTotal.toLocaleString()}</span>
+              <span>UGX {dlgCartItemsTotal.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span>Delivery fee</span>
@@ -218,7 +205,7 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
         </div>
       </div>
 
-      {/* Nested Schedule Dialog */}
+      {/* Schedule Dialog */}
       {isScheduleDialogOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-60">
           <div className="bg-white rounded-lg shadow-lg p-6 w-80">
@@ -262,5 +249,3 @@ export default function CheckoutDialog({ open, onClose }: CheckoutDialogProps) {
     </div>
   );
 }
-export { userUid }
-
