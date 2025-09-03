@@ -1,8 +1,8 @@
 "use client";
 
-import { getToken } from 'firebase/messaging';
+import { getToken } from "firebase/messaging";
 import React, { useEffect, useState } from "react";
-import CheckoutDialog from '@/components/checkoutDialog';
+import CheckoutDialog from "@/components/checkoutDialog";
 
 import { db, auth, messaging } from "@/lib/firebase";
 import {
@@ -15,6 +15,8 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
+import { useCartContext } from "@/lib/CartContext";
+
 type CartItem = {
   id: string;
   name: string;
@@ -25,33 +27,19 @@ type CartItem = {
   userID: string;
 };
 
-let userUidV = "";
-let emailAddV = "";
-let vendorUidV = "";
-let currencyV = "";
-let deviceTokenV = "";
-let vendorTitleV = "";
-let itemCountV = 0;
-let dlgCartItemsTotal = 0;
-async function requestPermissionAndToken() {
-  try {
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      const token = await getToken(messaging, {
-        vapidKey: process.env.WEB_PUSH_CERTIFICATE_KEY_PAIR,
-      });
-      console.log("Device token:", token);
-      deviceTokenV = token;
-    } else {
-      console.warn("Notification permission not granted.");
-    }
-  } catch (error) {
-    console.error("Error getting token:", error);
-  }
-}
-
 export default function MyOrderPage() {
-  requestPermissionAndToken();
+  const {
+    setUserUid,
+    setEmailAdd,
+    setVendorUid,
+    setCurrency,
+    setDeviceToken,
+    setVendorTitle,
+    setItemCount,
+    setDlgCartItemsTotal,
+    deviceToken,
+  } = useCartContext();
+
   const [cart, setCart] = useState<CartItem[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [vendorName, setVendorName] = useState<string>("Loading...");
@@ -59,49 +47,63 @@ export default function MyOrderPage() {
   const [deliveryFee] = useState<number>(5000);
   const [status, setStatus] = useState("");
   const [emailStatus, setEmailStatus] = useState("");
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+
+  // Request push permission
+  async function requestPermissionAndToken() {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        const token = await getToken(messaging, {
+          vapidKey: process.env.WEB_PUSH_CERTIFICATE_KEY_PAIR,
+        });
+        console.log("Device token:", token);
+        setDeviceToken(token);
+      } else {
+        console.warn("Notification permission not granted.");
+      }
+    } catch (error) {
+      console.error("Error getting token:", error);
+    }
+  }
 
   async function sendPush() {
-
     const res = await fetch("/api/send-push", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        token: deviceTokenV,
+        token: deviceToken,
         title: "New order",
-        body: "From Sarah needs items of UGX 1,200,000 now!"
+        body: "From Sarah needs items of UGX 1,200,000 now!",
       }),
     });
-    console.log("Message sent successfully to " + deviceTokenV);
+    console.log("Message sent successfully to " + deviceToken);
 
     const data = await res.json();
     setStatus(JSON.stringify(data));
-
-    console.log(deviceTokenV);
   }
 
   async function sendEmail() {
-
     const res = await fetch("/api/send-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         to: "mcqueensarah48@gmail.com",
         subject: "Hi there!",
-        html: "<strong>How are you today!</strong>"
+        html: "<strong>How are you today!</strong>",
       }),
     });
-    console.log("Email sent successfully to: mcqueensarah48@gmail.com");
+    console.log("Email sent successfully");
 
     const data = await res.json();
     setEmailStatus(JSON.stringify(data));
 
     sendPush();
-    console.log(deviceTokenV);
   }
 
-  // Listen for logged in user
+  // Listen for logged-in user
   useEffect(() => {
+    requestPermissionAndToken();
     const unsub = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUserId(user.uid);
@@ -116,6 +118,7 @@ export default function MyOrderPage() {
     const querySnap = await getDocs(collection(db, "Cart", uid, "Items"));
     const items: CartItem[] = [];
     let total = 0;
+    setItemCount(0);
 
     querySnap.forEach((docSnap) => {
       const data = docSnap.data();
@@ -130,23 +133,23 @@ export default function MyOrderPage() {
       };
       items.push(item);
       total += item.price * item.count;
-      itemCountV += data.itemCount;
+      setItemCount(data.itemCount);
     });
 
     setCart(items);
     setSubTotal(total + deliveryFee);
-    vendorUidV = items[0].vendorID;
-    userUidV = items[0].userID;
-    dlgCartItemsTotal = total
+    setDlgCartItemsTotal(total);
 
-    // Fetch vendor name
     if (items.length > 0) {
+      setVendorUid(items[0].vendorID);
+      setUserUid(items[0].userID);
+
       const vendorSnap = await getDoc(doc(db, "Vendors", items[0].vendorID));
       if (vendorSnap.exists()) {
         setVendorName(vendorSnap.data().name);
-        currencyV = vendorSnap.data().currency;
-        vendorTitleV = vendorSnap.data().name;
-        emailAddV = vendorSnap.data().email;
+        setCurrency(vendorSnap.data().currency);
+        setVendorTitle(vendorSnap.data().name);
+        setEmailAdd(vendorSnap.data().email);
       }
     }
   };
@@ -210,8 +213,13 @@ export default function MyOrderPage() {
       <div className="fixed bottom-0 left-0 w-full bg-white border-t p-4 shadow-lg">
         <h2 className="font-semibold">Summary</h2>
         <p>Delivery fee UGX 5000</p>
-        <h3 className="font-semibold">Sub total: UGX {subTotal.toLocaleString()}</h3>
-        <button onClick={() => setIsCheckoutOpen(true)} className="mt-3 w-full bg-green-500 pointer text-white py-2 rounded-lg">
+        <h3 className="font-semibold">
+          Sub total: UGX {subTotal.toLocaleString()}
+        </h3>
+        <button
+          onClick={() => setIsCheckoutOpen(true)}
+          className="mt-3 w-full bg-green-500 pointer text-white py-2 rounded-lg"
+        >
           PROCEED TO CHECKOUT
         </button>
       </div>
@@ -221,13 +229,4 @@ export default function MyOrderPage() {
       />
     </div>
   );
-}
-export { 
-  userUidV,
-  currencyV,
-  itemCountV,
-  vendorTitleV,
-  emailAddV,
-  vendorUidV,
-  dlgCartItemsTotal
 }
