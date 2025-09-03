@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { userUid } from "@/components/checkoutDialog";
 import { db } from "@/lib/firebase";
-import { currencyV } from "@/app/cart/page";
+import { useCartContext } from "@/lib/CartContext";
 import {
   doc,
   getDoc,
@@ -20,6 +19,13 @@ declare global {
   }
 }
 
+export default function FlutterwavePayButton({ amount }: { amount: number }) {
+
+  const {
+  userUid,
+  currency
+} = useCartContext();
+
 let fName = "", emailAdd = "", phoneNo = "", lName = "";
 async function userDetails() {
   const userSnap = await getDoc(doc(db, "Users", userUid));
@@ -31,7 +37,6 @@ async function userDetails() {
   }
 }
 
-export default function FlutterwavePayButton({ amount }: { amount: number }) {
   const [loaded, setLoaded] = useState(false);
   userDetails();
   useEffect(() => {
@@ -58,7 +63,7 @@ export default function FlutterwavePayButton({ amount }: { amount: number }) {
       public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_KEY,
       tx_ref: Date.now().toString(),
       amount,
-      currency: currencyV,
+      currency: currency,
       payment_options: "card,mobilemoney,ussd",
       customer: {
         email: "cawinetechnologies@gmail.com",
